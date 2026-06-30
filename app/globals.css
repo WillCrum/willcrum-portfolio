@@ -1,26 +1,191 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Theme variants — apply a utility only under the active [data-theme]. */
+@custom-variant forest (&:where([data-theme="forest"] *));
+@custom-variant neon (&:where([data-theme="neon"] *));
+
+/* ============================================================================
+   DESIGN TOKENS — Crum Portfolio
+   Primitives + scale/radius/shadow/type live here (theme-independent).
+   Semantic, theme-switchable tokens are defined in `@theme inline` below and
+   re-bound per [data-theme] further down.
+   ========================================================================== */
+
+@theme {
+  /* Type ------------------------------------------------------------------ */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  /* Primitive palette — Grayscale ---------------------------------------- */
+  --color-grayscale-00: #ffffff;
+  --color-grayscale-50: #f3f3f3;
+  --color-grayscale-100: #e5e5e5;
+  --color-grayscale-200: #cccccc;
+  --color-grayscale-300: #b6b6b6;
+  --color-grayscale-400: #9e9e9e;
+  --color-grayscale-500: #868686;
+  --color-grayscale-600: #6f6f6f;
+  --color-grayscale-700: #5c5c5c;
+  --color-grayscale-800: #474747;
+  --color-grayscale-900: #333333;
+  --color-grayscale-925: #2d2d2d;
+  --color-grayscale-950: #1d1d1d;
+  --color-grayscale-1000: #000000;
+
+  /* Primitive palette — Neon --------------------------------------------- */
+  --color-neon-50: #f3ff8e;
+  --color-neon-100: #e9fa00;
+  --color-neon-200: #cddc00;
+  --color-neon-250: #bcc900;
+  --color-neon-300: #afbc00;
+  --color-neon-400: #95a000;
+  --color-neon-500: #798200;
+  --color-neon-600: #616800;
+  --color-neon-700: #474d00;
+  --color-neon-750: #393e00;
+  --color-neon-800: #313500;
+  --color-neon-850: #262900;
+  --color-neon-900: #1b1d00;
+  --color-neon-950: #101200;
+
+  /* Radius — design scale (xs 2 / sm 4 / md 8 / lg 12 / xl 16) ------------ */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 1000px;
+
+  /* Shadows --------------------------------------------------------------- */
+  --shadow-xs: 0 2px 4px rgb(0 0 0 / 0.2);
+  --shadow-elevated: 0 2px 4px rgb(0 0 0 / 0.05), 0 24px 48px -8px rgb(0 0 0 / 0.2);
+
+  /* Layout ---------------------------------------------------------------- */
+  --container-content: 1164px;
 }
 
+/* ----------------------------------------------------------------------------
+   SEMANTIC TOKENS (theme-switchable)
+   `inline` so utilities reference the live `--*` var, which is re-bound per
+   [data-theme]. Components must use these (bg-page, text-headline, …) — never
+   raw palette values.
+   -------------------------------------------------------------------------- */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-page: var(--page);
+  --color-card: var(--card);
+
+  --color-headline: var(--headline);
+  --color-subhead: var(--subhead);
+  --color-body: var(--body);
+  --color-caption: var(--caption);
+
+  --color-focus: var(--focus);
+  --color-spacer: var(--spacer);
+
+  --color-button: var(--button);
+  --color-button-hover: var(--button-hover);
+  --color-button-clicked: var(--button-clicked);
+  --color-button-disabled: var(--button-disabled);
+
+  --color-button-label: var(--button-label);
+  --color-button-label-hover: var(--button-label-hover);
+  --color-button-label-disabled: var(--button-label-disabled);
+  --color-button-label-secondary: var(--button-label-secondary);
+
+  --color-tag: var(--tag);
+  --color-tag-off: var(--tag-off);
+  --color-tag-hover: var(--tag-hover);
+  --color-tag-disabled: var(--tag-disabled);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ============================================================================
+   THEMES — re-bind semantic vars to primitives.
+   Forest = dark (default). Neon = light. Dark-Grayscale is engine-ready but
+   not exposed in V1.
+   ========================================================================== */
+
+/* Forest (default) */
+:root,
+[data-theme="forest"] {
+  color-scheme: dark;
+
+  --page: var(--color-neon-900);
+  --card: var(--color-neon-850);
+
+  --headline: var(--color-grayscale-50);
+  --subhead: var(--color-grayscale-100);
+  --body: var(--color-grayscale-100);
+  --caption: var(--color-grayscale-400);
+
+  --focus: var(--color-neon-600);
+  --spacer: var(--color-neon-750);
+
+  --button: var(--color-neon-700);
+  --button-hover: var(--color-neon-750);
+  --button-clicked: var(--color-neon-900);
+  --button-disabled: var(--color-neon-800);
+
+  --button-label: var(--color-neon-300);
+  --button-label-hover: var(--color-neon-100);
+  --button-label-disabled: var(--color-neon-600);
+  --button-label-secondary: var(--color-neon-600);
+
+  --tag: var(--color-neon-600);
+  --tag-off: var(--color-neon-800);
+  --tag-hover: var(--color-neon-400);
+  --tag-disabled: var(--color-neon-800);
+}
+
+/* Neon */
+[data-theme="neon"] {
+  color-scheme: light;
+
+  --page: var(--color-neon-100);
+  --card: var(--color-neon-200);
+
+  --headline: var(--color-neon-950);
+  --subhead: var(--color-neon-700);
+  --body: var(--color-neon-900);
+  --caption: var(--color-neon-750);
+
+  --focus: var(--color-neon-500);
+  --spacer: var(--color-neon-500);
+
+  --button: var(--color-neon-300);
+  --button-hover: var(--color-neon-500);
+  --button-clicked: var(--color-neon-400);
+  --button-disabled: var(--color-neon-250);
+
+  --button-label: var(--color-neon-750);
+  --button-label-hover: var(--color-neon-950);
+  --button-label-disabled: var(--color-neon-500);
+  --button-label-secondary: var(--color-neon-600);
+
+  --tag: var(--color-neon-400);
+  --tag-off: var(--color-neon-250);
+  --tag-hover: var(--color-neon-400);
+  --tag-disabled: var(--color-neon-250);
+}
+
+/* ============================================================================
+   BASE
+   ========================================================================== */
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
-}
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  body {
+    background-color: var(--color-page);
+    color: var(--color-body);
+    font-family: var(--font-sans);
+  }
+
+  /* Consistent, theme-aware focus ring for keyboard users. */
+  :focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
 }
