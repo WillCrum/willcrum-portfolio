@@ -48,6 +48,7 @@ export function ProjectCard({ project }: { project: Project }) {
             src={hero.src}
             alt={hero.alt}
             fill
+            quality={90}
             sizes="(max-width: 768px) 100vw, 572px"
             className={cn("object-cover", hero.srcNeon && "neon:hidden")}
           />
@@ -57,6 +58,7 @@ export function ProjectCard({ project }: { project: Project }) {
               alt=""
               aria-hidden
               fill
+              quality={90}
               sizes="(max-width: 768px) 100vw, 572px"
               className="object-cover forest:hidden"
             />

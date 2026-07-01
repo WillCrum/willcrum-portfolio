@@ -35,7 +35,7 @@ export type Project = {
   cta: CTA;
 };
 
-export type ProfileLinkKind = "email" | "linkedin" | "resume" | "external";
+export type ProfileLinkKind = "email" | "linkedin" | "resume" | "instagram" | "external";
 
 export type ProfileLink = {
   label: string;

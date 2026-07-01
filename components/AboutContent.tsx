@@ -48,7 +48,7 @@ export function AboutContent() {
       </div>
 
       {/* Portrait */}
-      <div className="relative order-1 aspect-[57/50] w-full overflow-hidden rounded-xl md:order-2">
+      <div className="relative order-1 aspect-[57/50] w-full overflow-hidden md:order-2">
         <Image
           src={about.portrait.src}
           alt={about.portrait.alt}
