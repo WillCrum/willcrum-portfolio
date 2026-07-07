@@ -9,11 +9,23 @@ export const site = {
     { label: "Work", href: "/" },
     { label: "About", href: "/about" },
   ] satisfies NavItem[],
-  // TODO: confirm final URLs for resume and instagram
   footerLinks: [
     { label: "email", href: "mailto:willacrum@gmail.com", kind: "email" },
-    { label: "resume", href: "#", kind: "resume" },
-    { label: "linkedin", href: "https://www.linkedin.com/in/willcrum/", kind: "linkedin" },
-    { label: "insta", href: "#", kind: "instagram" },
+    {
+      label: "resume",
+      href: "https://docs.google.com/document/d/1QObNSFO9JiwB7h2TIGgN3K6g_GJVUfE1O68s8SP4DuA/edit?usp=sharing",
+      kind: "resume",
+    },
+    {
+      label: "linkedin",
+      // NOTE: exact profile — other "Will Crum"s exist on LinkedIn, don't swap for a handle-based URL.
+      href: "https://www.linkedin.com/in/will-crum-41009545/",
+      kind: "linkedin",
+    },
+    {
+      label: "insta",
+      href: "https://www.instagram.com/crumblebrag/",
+      kind: "instagram",
+    },
   ] satisfies ProfileLink[],
 };

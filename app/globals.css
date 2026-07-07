@@ -62,6 +62,12 @@
 
   /* Layout ---------------------------------------------------------------- */
   --container-content: 1164px;
+
+  /* Motion — sitewide default for every bare `transition-*` utility that
+     doesn't specify its own `duration-*` (Tailwind's built-in default is
+     150ms). Governs both hover-color transitions and the theme-toggle
+     dissolve below. Tune here to speed up/slow down site-wide. */
+  --default-transition-duration: 300ms;
 }
 
 /* ----------------------------------------------------------------------------
@@ -187,5 +193,120 @@
   :focus-visible {
     outline: 2px solid var(--color-focus);
     outline-offset: 2px;
+  }
+
+  /* Theme-toggle dissolve — cross-fades every color-driven property when
+     [data-theme] swaps. Elements that already declare their own
+     transition-colors (buttons, tags, nav links) pick up the same
+     --default-transition-duration above via that utility instead of this
+     rule (their class is more specific), so both stay in lockstep.
+
+     `color` is deliberately NOT included here. It's an inherited property —
+     applying its transition via `*` gives every descendant (SVG <path>s
+     inheriting via currentColor, <em>/text runs inside a paragraph) their
+     own redundant, independently-timed copy of the same transition already
+     running on the ancestor that actually owns the color, and the two
+     fall very slightly out of sync — visible as a flicker, most obvious in
+     icons and in body copy with nested inline elements. `background-color`,
+     `border-color`, and `box-shadow` are NOT inherited, so they don't have
+     this problem and are safe to blanket-apply. */
+  *,
+  *::before,
+  *::after {
+    transition-property: background-color, border-color, box-shadow;
+    transition-duration: var(--default-transition-duration);
+  }
+
+  /* `color` transition scoped instead to the actual elements that declare
+     one of these tokens directly (the complete set in use — see
+     `@theme inline` above) — their descendants inherit the already-smoothly-
+     changing value for free, no separate transition needed. */
+  .text-headline,
+  .text-subhead,
+  .text-body,
+  .text-caption,
+  .text-focus,
+  .text-button-label,
+  .text-button-label-hover,
+  .text-button-label-disabled,
+  .text-button-label-secondary {
+    transition-property: color;
+    transition-duration: var(--default-transition-duration);
+  }
+}
+
+/* ============================================================================
+   HERO TEXT REVEAL — see components/HeroMessage.tsx for the animation-
+   duration/steps()/delay values applied inline (all derived from the
+   TYPE_PHRASE/TYPE_DURATION_MS/FOCUS_HESITATION_MS constants there).
+   ========================================================================== */
+@keyframes hero-reveal-type {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+/* Animista's "text-focus-in" — blur clears as it fades in. No
+   letter-spacing change (that's a different Animista effect,
+   "focus-in-contract"/"-expand") — deliberately, since animating
+   letter-spacing changes the element's own rendered width over the course
+   of the animation, which was pushing "clear." onto a wrapped second line
+   at the start and visibly repositioning it back once spacing settled. */
+@keyframes hero-focus-in {
+  0% {
+    filter: blur(10px);
+    opacity: 0;
+  }
+  100% {
+    filter: blur(0px);
+    opacity: 1;
+  }
+}
+.hero-reveal-type {
+  display: inline-block;
+  clip-path: inset(0 100% 0 0);
+  animation-name: hero-reveal-type;
+  animation-fill-mode: both;
+}
+/* Delay (set inline in HeroMessage.tsx) starts this right after the
+   TYPE_DURATION_MS + FOCUS_HESITATION_MS pause above. Duration/easing match
+   Animista's published "text-focus-in" values (minus their demo-only
+   `infinite` loop, which doesn't apply to a one-time reveal). */
+.hero-focus-in {
+  display: inline-block;
+  opacity: 0;
+  animation-name: hero-focus-in;
+  animation-duration: 450ms;
+  animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+  animation-fill-mode: both;
+}
+
+/* ============================================================================
+   MOTION — reduced-motion opt-out.
+   Transform/animation-driven effects (mobile menu slide, card tilt, hero
+   text reveal) are disabled outright for users who request reduced motion.
+   Color transitions (theme dissolve, button hover fill) are left running —
+   they aren't implicated in the vestibular discomfort transform/parallax
+   motion can cause.
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .motion-safe-only {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  /* .motion-safe-only's blanket animation:none isn't enough here — it would
+     leave the type/focus-in spans stuck at their pre-animation state
+     (clipped away / blurred+invisible) forever, since that state only ever
+     resolves via the now-disabled animation. Explicitly reset both to
+     fully visible. */
+  .hero-reveal-type,
+  .hero-focus-in {
+    animation: none !important;
+    clip-path: none !important;
+    opacity: 1 !important;
+    filter: none !important;
   }
 }

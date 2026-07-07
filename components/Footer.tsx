@@ -3,31 +3,15 @@
 import { useState } from "react";
 import { Container } from "@/components/ui/Container";
 import { Divider } from "@/components/ui/Divider";
-import {
-  ArrowUpRight,
-  Check,
-  Copy,
-  FileText,
-  Instagram,
-  LinkedIn,
-  Mail,
-} from "@/components/icons";
+import { RadialReveal, trackPointer } from "@/components/ui/radialReveal";
+import { ArrowUpRight, Check, Copy } from "@/components/icons";
 import { site } from "@/content/site";
-import type { ProfileLinkKind } from "@/content/types";
 import { cn } from "@/lib/cn";
-import type { SVGProps, ReactElement } from "react";
 
-type IconComponent = (props: SVGProps<SVGSVGElement>) => ReactElement;
-
-const ICONS: Partial<Record<ProfileLinkKind, IconComponent>> = {
-  email: Mail,
-  linkedin: LinkedIn,
-  resume: FileText,
-  instagram: Instagram,
-};
-
+// Secondary button: no fill, no border — text + padding + rounded, per Figma Library.
+// `group relative isolate overflow-hidden` is required by RadialReveal below.
 const secondaryBtn =
-  "inline-flex items-center gap-1.5 rounded-md border border-spacer px-3 py-1.5 text-sm text-caption transition-colors hover:border-focus hover:text-headline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus";
+  "group relative isolate overflow-hidden inline-flex items-center gap-1.5 rounded-md p-2.5 text-[13px] font-medium leading-[1.2] tracking-[0.26px] text-button-label-secondary transition-colors hover:text-button-label-hover focus-visible:outline-none focus-visible:text-button-label-hover focus-visible:ring-2 focus-visible:ring-focus";
 
 function EmailCopyButton({ label }: { label: string }) {
   const [copied, setCopied] = useState(false);
@@ -42,22 +26,33 @@ function EmailCopyButton({ label }: { label: string }) {
     }
   }
 
-  const Icon = ICONS.email!;
   return (
-    <button
-      type="button"
-      onClick={copy}
-      aria-label={copied ? "Email address copied" : "Copy email address"}
-      className={secondaryBtn}
-    >
-      <Icon className="size-3.5" />
-      {label}
+    <span className="relative inline-flex">
+      <button
+        type="button"
+        onClick={copy}
+        onPointerEnter={trackPointer}
+        onPointerLeave={trackPointer}
+        aria-label={copied ? "Email address copied" : "Copy email address"}
+        className={secondaryBtn}
+      >
+        <RadialReveal />
+        {label}
+        {copied ? (
+          <Check className="size-3.5" />
+        ) : (
+          <Copy className="size-3.5" />
+        )}
+      </button>
       {copied ? (
-        <Check className="size-3.5" />
-      ) : (
-        <Copy className="size-3.5" />
-      )}
-    </button>
+        <span
+          role="status"
+          className="absolute bottom-full left-1/2 z-10 mb-1 -translate-x-1/2 whitespace-nowrap rounded-md bg-card px-2 py-1 text-xs text-headline shadow-elevated"
+        >
+          Copied
+        </span>
+      ) : null}
+    </span>
   );
 }
 
@@ -67,8 +62,8 @@ export function Footer() {
   return (
     <Container as="footer" className="mt-16 md:mt-24">
       <Divider />
-      <div className="flex items-center justify-between py-6">
-        <ul className="flex items-center gap-2">
+      <div className="flex items-center justify-between py-4">
+        <ul className="flex items-center gap-1">
           {site.footerLinks.map((link) => {
             if (link.kind === "email") {
               return (
@@ -77,18 +72,19 @@ export function Footer() {
                 </li>
               );
             }
-            const Icon = ICONS[link.kind];
             const isExternal = /^https?:\/\//.test(link.href);
             return (
               <li key={link.label}>
                 <a
                   href={link.href}
+                  onPointerEnter={trackPointer}
+                  onPointerLeave={trackPointer}
                   {...(isExternal
                     ? { target: "_blank", rel: "noopener noreferrer" }
                     : {})}
                   className={cn(secondaryBtn)}
                 >
-                  {Icon ? <Icon className="size-3.5" /> : null}
+                  <RadialReveal />
                   {link.label}
                   <ArrowUpRight className="size-3.5" />
                 </a>

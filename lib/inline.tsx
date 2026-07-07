@@ -29,7 +29,15 @@ export function renderInline(text: string): ReactNode {
         <a
           key={key++}
           href={href}
-          className="underline decoration-1 underline-offset-2 transition-colors hover:text-headline"
+          // No transition-colors here, deliberately: its resting color is
+          // only ever inherited from the surrounding paragraph, never set
+          // directly. Declaring a transition on an inherited value makes
+          // this element re-run its own copy of the ambient theme-dissolve
+          // transition independently of (and very slightly out of sync
+          // with) the paragraph that actually owns the color — visible as
+          // a lag. Trade-off: the hover→text-headline color change below is
+          // now an instant snap instead of a fade.
+          className="underline decoration-1 underline-offset-2 hover:text-headline"
           {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
         >
           {linkText}

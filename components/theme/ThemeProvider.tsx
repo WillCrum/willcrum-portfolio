@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useCallback, useContext, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import {
   DEFAULT_THEME,
   THEME_STORAGE_KEY,
@@ -24,13 +24,36 @@ type ThemeContextValue = {
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  // Lazy initializer reads the data-theme the inline <head> script already set,
-  // avoiding a setState-in-effect and the extra render it would cause.
-  const [theme, setThemeState] = useState<Theme>(() => {
-    if (typeof document === "undefined") return DEFAULT_THEME;
+  // Always start from DEFAULT_THEME on both server and client. A lazy
+  // initializer that read document.documentElement.dataset.theme directly
+  // used to live here — that attribute is set by the inline <head> script
+  // (see lib/theme.ts's themeInitScript) via the browser's native HTML
+  // parser, BEFORE React runs, and by hydration time already reflects the
+  // real localStorage preference. That meant the client's first render of
+  // this state could legitimately differ from the server's (which has no
+  // DOM/localStorage and always falls back to DEFAULT_THEME) — a genuine
+  // hydration mismatch for every consumer of `theme` (ThemeToggle renders a
+  // different icon/label depending on it). Starting both renders from the
+  // same static default removes the mismatch at its root; the effect below
+  // syncs to the real value immediately after mount instead.
+  const [theme, setThemeState] = useState<Theme>(DEFAULT_THEME);
+
+  // Post-mount sync: adopt whatever the inline script already applied to
+  // <html>, now that hydration has completed without a mismatch. Only ever
+  // actually updates state once — after that, `applied === theme` already
+  // holds (setTheme below keeps the DOM attribute and this state in lockstep
+  // on every subsequent change), so later re-runs are harmless no-ops.
+  useEffect(() => {
     const applied = document.documentElement.dataset.theme;
-    return isTheme(applied) ? applied : DEFAULT_THEME;
-  });
+    if (isTheme(applied) && applied !== theme) {
+      // The rule below normally guards against effect-triggered cascading
+      // renders, but that's exactly the (harmless, one-time) trade-off this
+      // fix intentionally makes in exchange for removing the hydration
+      // mismatch — see the comment on the useState above.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setThemeState(applied);
+    }
+  }, [theme]);
 
   const setTheme = useCallback((next: Theme) => {
     setThemeState(next);

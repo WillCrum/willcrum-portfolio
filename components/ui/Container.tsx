@@ -9,13 +9,16 @@ export function Container({
   children,
   className,
   as: Tag = "div",
+  id,
 }: {
   children: ReactNode;
   className?: string;
   as?: "div" | "header" | "footer" | "section" | "main";
+  id?: string;
 }) {
   return (
     <Tag
+      id={id}
       className={cn(
         "mx-auto w-full max-w-[calc(var(--container-content)+3rem)] px-6",
         className,
