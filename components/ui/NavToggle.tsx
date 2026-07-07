@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/cn";
+import { RadialReveal, trackPointer } from "@/components/ui/radialReveal";
 
 export function NavToggle({ href, label }: { href: string; label: string }) {
   const pathname = usePathname();
@@ -44,24 +45,25 @@ export function NavToggle({ href, label }: { href: string; label: string }) {
     <Link
       href={href}
       onClick={handleClick}
+      onPointerEnter={trackPointer}
+      onPointerLeave={trackPointer}
       aria-current={active ? "page" : undefined}
       className={cn(
-        // Fixed h-9 + flex centering matches IconButton's own size-9 square
-        // exactly, so the hover-fill background is the same height and
-        // vertical position as the view-mode toggle button beside it —
+        // group/relative/isolate/overflow-hidden required by RadialReveal
+        // below. Fixed h-9 + flex centering matches IconButton's own size-9
+        // square exactly, so the hover-fill background is the same height
+        // and vertical position as the view-mode toggle button beside it —
         // rather than the old p-2.5 (auto height from content), which
         // produced a slightly different box.
-        "flex h-9 items-center justify-center rounded-md px-2.5 transition-colors",
+        "group relative isolate flex h-9 items-center justify-center overflow-hidden rounded-md px-2.5 transition-colors",
         // Default text colour — cascades to children
         active ? "text-button-label" : "text-button-label-disabled",
-        // Hover: fill + brighter text
-        "hover:bg-button-hover hover:text-button-label-hover",
-        // Focus: same fill + ring
-        "focus-visible:outline-none focus-visible:bg-button-hover focus-visible:text-button-label-hover focus-visible:ring-2 focus-visible:ring-focus",
-        // Active press
-        "active:bg-button-clicked",
+        // Hover/focus: brighter text (fill itself comes from RadialReveal)
+        "hover:text-button-label-hover",
+        "focus-visible:outline-none focus-visible:text-button-label-hover focus-visible:ring-2 focus-visible:ring-focus",
       )}
     >
+      <RadialReveal />
       {/* 2 px gap between label and underline indicator, per design.
           inline-flex + w-fit keeps this shrink-wrapped to the text so the
           underline never exceeds the label's rendered width. Flex-centering
