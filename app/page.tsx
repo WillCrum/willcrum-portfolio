@@ -6,6 +6,7 @@ import { HeroMessage } from "@/components/HeroMessage";
 import { WorkIntro } from "@/components/WorkIntro";
 import { ProjectCard } from "@/components/ProjectCard";
 import { Button } from "@/components/ui/Button";
+import { BackToTopButton } from "@/components/ui/BackToTopButton";
 import { RotateCcw } from "@/components/icons";
 import { projects } from "@/content/projects";
 
@@ -87,6 +88,7 @@ export default function WorkPage() {
           ))
         )}
       </Container>
+      <BackToTopButton />
     </>
   );
 }
