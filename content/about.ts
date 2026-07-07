@@ -1,5 +1,3 @@
-import type { ProfileLink } from "@/content/types";
-
 export const about = {
   headline: "Hey, stranger. I’m Will.",
   // Each entry is one paragraph; inline markdown (*italic*, [text](href)) is supported.
@@ -14,10 +12,4 @@ export const about = {
     src: "/images/portrait.jpg",
     alt: "Will Crum",
   },
-  // TODO: confirm final URLs with Will (LinkedIn handle, résumé link).
-  links: [
-    { label: "Email", href: "mailto:willacrum@gmail.com", kind: "email" },
-    { label: "LinkedIn", href: "https://www.linkedin.com/", kind: "linkedin" },
-    { label: "Résumé", href: "#", kind: "resume" },
-  ] satisfies ProfileLink[],
 };
