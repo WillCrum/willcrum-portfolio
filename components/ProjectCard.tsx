@@ -19,6 +19,11 @@ const RESET_TRANSITION_MS = 400;
 // Matches --shadow-xs (0 2px 4px rgb(0 0 0 / 0.2)) — the resting shadow this
 // tilt shifts away from, and back to on mouse-leave.
 const SHADOW_BASE = { offsetY: 2, blur: 4, alpha: 0.2 };
+// Hero column's fixed height at md:+ — must match the `md:h-[577px]`
+// classes below. Used to compute each artwork card's true rendered width
+// for its `sizes` hint, since the card's width is derived from height ×
+// aspect (never set independently), not from viewport width.
+const HERO_FRAME_HEIGHT_PX = 577;
 
 function resetCardTilt(card: HTMLElement) {
   card.style.transition = `transform ${RESET_TRANSITION_MS}ms ease-out, box-shadow ${RESET_TRANSITION_MS}ms ease-out`;
@@ -59,6 +64,9 @@ function handleCardMouseLeave(e: MouseEvent<HTMLElement>) {
  * frame reshapes across breakpoints — only the outer frame's overflow clips
  * the overall composition. */
 function ArtworkCardImage({ card, alt }: { card: ArtworkCard; alt: string }) {
+  const desktopWidthPx = Math.round(
+    (parseFloat(card.height) / 100) * HERO_FRAME_HEIGHT_PX * card.aspect,
+  );
   return (
     <div
       className="absolute overflow-hidden"
@@ -80,7 +88,7 @@ function ArtworkCardImage({ card, alt }: { card: ArtworkCard; alt: string }) {
         fill
         quality={90}
         unoptimized={card.unoptimized}
-        sizes="(max-width: 768px) 100vw, 572px"
+        sizes={`(max-width: 768px) 100vw, ${desktopWidthPx}px`}
         className="object-contain"
       />
     </div>

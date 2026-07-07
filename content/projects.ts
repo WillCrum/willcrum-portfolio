@@ -3,9 +3,8 @@ import type { Project } from "@/content/types";
 // Intro block at the top of the Work page.
 export const workIntro = {
   title: "Skills and projects",
-  // *Design* is italicised inline.
   description:
-    "*Design* is a multidisciplinary means of wielding creativity to solve problems. Here are some of the skills, frameworks, and modalities I regularly use to put my approach into practice.",
+    "Design is a multimodal means of wielding creativity to solve problems. Here are the main skills and frameworks I use to put my approach into practice — and some projects that showcase them.",
   skills: [
     "UI",
     "UX",
@@ -34,7 +33,7 @@ export const projects: Project[] = [
         desktop: [
           {
             src: "/images/mta-spec-artwork.png",
-            aspect: 1787 / 1129,
+            aspect: 3572 / 2258,
             height: "95%",
             top: "2.5%",
             left: "0%",
@@ -44,7 +43,7 @@ export const projects: Project[] = [
         mobile: [
           {
             src: "/images/mta-spec-artwork.png",
-            aspect: 1787 / 1129,
+            aspect: 3572 / 2258,
             height: "125%",
             top: "8%",
             left: "3%",
