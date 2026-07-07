@@ -242,10 +242,16 @@
    ========================================================================== */
 @keyframes hero-reveal-type {
   from {
-    clip-path: inset(0 100% 0 0);
+    /* Bottom inset is negative, deliberately: leading-[1.1] on the heading
+       is tighter than Inter's descender depth at this size, so a flush 0
+       bottom inset clips descenders (e.g. "Making"'s g) against the tight
+       line box. Expands the clip rect past the box's own bottom edge to
+       give descenders room, purely a clip-region fix — doesn't affect the
+       left-to-right wipe itself. */
+    clip-path: inset(0 100% -0.2em 0);
   }
   to {
-    clip-path: inset(0 0 0 0);
+    clip-path: inset(0 0 -0.2em 0);
   }
 }
 /* Animista's "text-focus-in" — blur clears as it fades in. No
@@ -266,7 +272,7 @@
 }
 .hero-reveal-type {
   display: inline-block;
-  clip-path: inset(0 100% 0 0);
+  clip-path: inset(0 100% -0.2em 0);
   animation-name: hero-reveal-type;
   animation-fill-mode: both;
 }
