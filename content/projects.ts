@@ -25,7 +25,7 @@ export const projects: Project[] = [
     logoAlt: "My /spec",
     logoAspect: 116.059 / 34.5459,
     headline: "Live schedules for any MTA station at a single URL",
-    body: "Built with Claude Code, *My Transit Dashboard* is a customizable dashboard for MTA train and bus times that makes checking my closest stations a one-step action.",
+    body: "Built with Claude Code, [My Transit Dashboard](https://mta-transit-dashboard.vercel.app/) is a customizable tracker for MTA train and bus times — so I can check my top stations in a single step.",
     tags: ["agentic dev", "UX", "0->1"],
     hero: {
       alt: "My Transit Dashboard showing live MTA train and bus arrivals",
@@ -105,7 +105,7 @@ export const projects: Project[] = [
     logoAlt: "Pienso",
     logoAspect: 139.034 / 32,
     headline: "Powerful text search that matches meaning, not just key words",
-    body: "*Match* is a semantic search tool that gives users close control for finding sentences and documents with similar meaning.",
+    body: "Match is a semantic search tool that gives users close control for finding sentences and documents with similar meaning.",
     tags: ["UI", "UX", "AI/ML", "0->1"],
     hero: {
       alt: "Match semantic search interface with example phrases and documents",
@@ -232,7 +232,7 @@ export const projects: Project[] = [
     },
   },
   {
-    slug: "platform-reskin",
+    slug: "platform-reskin", 
     company: "Pienso",
     logo: "/images/logo-pienso.svg",
     logoAlt: "Pienso",

@@ -1,6 +1,11 @@
 import { Fragment, type ReactNode } from "react";
+import { FlipLink } from "@/components/ui/FlipLink";
 
 const TOKEN = /\[([^\]]+)\]\(([^)]+)\)|\*([^*]+)\*/g;
+
+// Shared with FlipLink's rendered links, since the underline/hover-color
+// treatment is otherwise identical to a plain inline link.
+const LINK_CLASS = "underline decoration-1 underline-offset-2 hover:text-headline";
 
 function isExternal(href: string): boolean {
   return /^https?:\/\//.test(href);
@@ -9,7 +14,7 @@ function isExternal(href: string): boolean {
 /**
  * Renders a small subset of inline markdown to React nodes:
  *   *italic*            → <em>
- *   [text](href)        → <a> (new tab for http(s) links)
+ *   [text](href)        → FlipLink (new tab for http(s) links)
  * No HTML is injected — tokens map to elements directly.
  */
 export function renderInline(text: string): ReactNode {
@@ -26,22 +31,9 @@ export function renderInline(text: string): ReactNode {
     if (href) {
       const external = isExternal(href);
       out.push(
-        <a
-          key={key++}
-          href={href}
-          // No transition-colors here, deliberately: its resting color is
-          // only ever inherited from the surrounding paragraph, never set
-          // directly. Declaring a transition on an inherited value makes
-          // this element re-run its own copy of the ambient theme-dissolve
-          // transition independently of (and very slightly out of sync
-          // with) the paragraph that actually owns the color — visible as
-          // a lag. Trade-off: the hover→text-headline color change below is
-          // now an instant snap instead of a fade.
-          className="underline decoration-1 underline-offset-2 hover:text-headline"
-          {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-        >
+        <FlipLink key={key++} href={href} external={external} className={LINK_CLASS}>
           {linkText}
-        </a>,
+        </FlipLink>,
       );
     } else if (italic) {
       out.push(
