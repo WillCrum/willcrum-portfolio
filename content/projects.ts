@@ -4,7 +4,7 @@ import type { Project } from "@/content/types";
 export const workIntro = {
   title: "Skills and projects",
   description:
-    "Design is a multimodal means of wielding creativity to solve problems. Here are the main skills and frameworks I use to put my approach into practice — and some projects that showcase them.",
+    "Here are the main design skills, modalities, and frameworks I employ to put my approach into practice — and select projects that showcase them.",
   skills: [
     "UI",
     "UX",
