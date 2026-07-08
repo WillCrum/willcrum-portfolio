@@ -94,7 +94,7 @@ export const projects: Project[] = [
     },
     cta: {
       label: "Read more",
-      href: "https://www.figma.com/slides/lTENMJVJm78AlJZdRlTwx6",
+      href: "https://www.figma.com/deck/lTENMJVJm78AlJZdRlTwx6",
       external: true,
     },
   },
@@ -125,7 +125,7 @@ export const projects: Project[] = [
     },
     cta: {
       label: "Read more",
-      href: "https://www.figma.com/slides/UkPMbG7q7lNxEU3AJqiVRT",
+      href: "https://www.figma.com/deck/UkPMbG7q7lNxEU3AJqiVRT",
       external: true,
     },
   },
@@ -227,7 +227,7 @@ export const projects: Project[] = [
     },
     cta: {
       label: "Read more",
-      href: "https://www.figma.com/slides/8v5EUyaPZdJariwZpRokns",
+      href: "https://www.figma.com/deck/8v5EUyaPZdJariwZpRokns",
       external: true,
     },
   },
@@ -276,7 +276,7 @@ export const projects: Project[] = [
     },
     cta: {
       label: "Read more",
-      href: "https://www.figma.com/slides/2gUHRCuqu0ttuDYnMumjtm",
+      href: "https://www.figma.com/deck/2gUHRCuqu0ttuDYnMumjtm",
       external: true,
     },
   },
@@ -341,7 +341,7 @@ export const projects: Project[] = [
     },
     cta: {
       label: "Read more",
-      href: "https://www.figma.com/slides/aXcuBTQNVp5nHMtlKUIjhe",
+      href: "https://www.figma.com/deck/aXcuBTQNVp5nHMtlKUIjhe",
       external: true,
     },
   },
