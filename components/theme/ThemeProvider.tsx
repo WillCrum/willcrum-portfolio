@@ -3,6 +3,7 @@
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import {
   DEFAULT_THEME,
+  THEME_ICONS,
   THEME_STORAGE_KEY,
   THEMES,
   type Theme,
@@ -58,6 +59,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const setTheme = useCallback((next: Theme) => {
     setThemeState(next);
     document.documentElement.dataset.theme = next;
+    // Swaps to the other theme's own favicon URL rather than mutating one
+    // file's content — see THEME_ICONS' own comment for why that matters.
+    const iconLink = document.querySelector<HTMLLinkElement>('link[rel="icon"]');
+    if (iconLink) iconLink.href = THEME_ICONS[next];
     try {
       localStorage.setItem(THEME_STORAGE_KEY, next);
     } catch {

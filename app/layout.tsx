@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
-import { themeInitScript } from "@/lib/theme";
+import { DEFAULT_THEME, THEME_ICONS, themeInitScript } from "@/lib/theme";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Container } from "@/components/ui/Container";
@@ -24,6 +24,12 @@ export const metadata: Metadata = {
   },
   description:
     "Will Crum is a product designer and strategist in Brooklyn, turning complex AI/ML capabilities into intuitive interfaces.",
+  // Matches DEFAULT_THEME — the inline script in <head> (themeInitScript)
+  // corrects this to the stored preference's icon before paint if it
+  // differs, and ThemeProvider's setTheme keeps it in sync on later toggles.
+  icons: {
+    icon: THEME_ICONS[DEFAULT_THEME],
+  },
   openGraph: {
     type: "website",
     siteName: "Will Crum",
