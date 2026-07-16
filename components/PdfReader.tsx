@@ -184,6 +184,10 @@ export function PdfReader({ url, caption }: { url: string; caption?: string }) {
       ? `Pages ${currentSpread[0]}–${currentSpread[1]}`
       : `Page ${currentSpread[0] ?? "–"}`;
   const showControls = !isFullscreen || controlsVisible;
+  // Fullscreen controls default to half-visible against arbitrary page
+  // content, and light up (opacity + a legible backdrop chip) on hover —
+  // only for enabled controls; disabled ones keep their static dim color.
+  const fsBtnClass = (disabled: boolean) => isFullscreen && !disabled && "pdfr-fs-btn";
 
   function pauseHideTimer() {
     if (isFullscreen) clearTimeout(hideTimerRef.current);
@@ -194,8 +198,136 @@ export function PdfReader({ url, caption }: { url: string; caption?: string }) {
     }
   }
 
+  const zoomGroup = (
+    <div className="flex items-center gap-1">
+      <IconButton
+        aria-label="Zoom out"
+        variant={atMinZoom ? "disabled" : "secondary"}
+        disabled={atMinZoom}
+        onClick={() => setZoom((z) => Math.max(MIN_ZOOM, Math.round((z - ZOOM_STEP) * 100) / 100))}
+        className={cn("size-8", fsBtnClass(atMinZoom))}
+        style={navStyle(atMinZoom)}
+      >
+        <ZoomOut className="size-4" />
+      </IconButton>
+      <IconButton
+        aria-label="Zoom in"
+        variant={atMaxZoom ? "disabled" : "secondary"}
+        disabled={atMaxZoom}
+        onClick={() => setZoom((z) => Math.min(MAX_ZOOM, Math.round((z + ZOOM_STEP) * 100) / 100))}
+        className={cn("size-8", fsBtnClass(atMaxZoom))}
+        style={navStyle(atMaxZoom)}
+      >
+        <ZoomIn className="size-4" />
+      </IconButton>
+    </div>
+  );
+
+  const paginationGroup = (
+    <div className="flex items-center gap-3">
+      <IconButton
+        aria-label="First page"
+        variant={atFirst ? "disabled" : "secondary"}
+        disabled={atFirst}
+        onClick={() => goToSpread(0)}
+        className={cn("size-8", fsBtnClass(atFirst))}
+        style={navStyle(atFirst)}
+      >
+        <ChevronFirst className="size-4" />
+      </IconButton>
+      <IconButton
+        aria-label="Previous page"
+        variant={atFirst ? "disabled" : "secondary"}
+        disabled={atFirst}
+        onClick={() => goToSpread(spreadIndex - 1)}
+        className={cn("size-9", fsBtnClass(atFirst))}
+        style={navStyle(atFirst)}
+      >
+        <ChevronLeft className="size-5" />
+      </IconButton>
+
+      <div
+        className={cn(
+          "flex min-w-[110px] items-center justify-center text-sm",
+          isFullscreen && "px-2 py-1",
+          fsBtnClass(false),
+          isFullscreen && isEditingPage && "pdfr-fs-active",
+        )}
+        style={isFullscreen ? { color: "rgba(255,255,255,0.85)" } : undefined}
+      >
+        {isEditingPage ? (
+          <input
+            autoFocus
+            inputMode="numeric"
+            value={editValue}
+            onChange={(e) => setEditValue(e.target.value)}
+            onKeyDown={handleEditKeyDown}
+            onBlur={() => setIsEditingPage(false)}
+            className={cn(
+              "w-14 border-b border-dashed bg-transparent text-center outline-none",
+              !editInvalid && "border-caption/50 text-caption",
+            )}
+            style={editInvalid ? { borderColor: "#ef4444", color: "#ef4444" } : undefined}
+          />
+        ) : (
+          <button
+            type="button"
+            onClick={startEditing}
+            className={cn(!isFullscreen && "text-caption", "underline-offset-2 hover:underline")}
+          >
+            {displayLabel} of {numPages}
+          </button>
+        )}
+      </div>
+
+      <IconButton
+        aria-label="Next page"
+        variant={atLast ? "disabled" : "secondary"}
+        disabled={atLast}
+        onClick={() => goToSpread(spreadIndex + 1)}
+        className={cn("size-9", fsBtnClass(atLast))}
+        style={navStyle(atLast)}
+      >
+        <ChevronRight className="size-5" />
+      </IconButton>
+      <IconButton
+        aria-label="Last page"
+        variant={atLast ? "disabled" : "secondary"}
+        disabled={atLast}
+        onClick={() => goToSpread(spreads.length - 1)}
+        className={cn("size-8", fsBtnClass(atLast))}
+        style={navStyle(atLast)}
+      >
+        <ChevronLast className="size-4" />
+      </IconButton>
+    </div>
+  );
+
+  const maximizeButton = (
+    <IconButton
+      aria-label={isFullscreen ? "Exit full screen" : "Enter full screen"}
+      onClick={() => setIsFullscreen((v) => !v)}
+      className={cn("size-8", fsBtnClass(false))}
+      style={navStyle(false)}
+    >
+      {isFullscreen ? <Minimize className="size-4" /> : <Maximize className="size-4" />}
+    </IconButton>
+  );
+
   return (
     <div className="flex flex-col gap-3">
+      <style>{`
+        .pdfr-fs-btn {
+          opacity: 0.5;
+          border-radius: 8px;
+          transition: opacity 200ms ease, background-color 200ms ease;
+        }
+        .pdfr-fs-btn:hover,
+        .pdfr-fs-btn.pdfr-fs-active {
+          opacity: 1;
+          background-color: rgba(0, 0, 0, 0.5);
+        }
+      `}</style>
       <div
         className={cn(
           "w-full",
@@ -247,133 +379,49 @@ export function PdfReader({ url, caption }: { url: string; caption?: string }) {
             </Document>
           </div>
 
-          {numPages && !failed && (
-            <div
-              className="flex w-full items-center justify-between"
-              style={
-                isFullscreen
-                  ? {
-                      position: "absolute",
-                      left: 24,
-                      right: 24,
-                      bottom: 24,
-                      opacity: showControls ? 1 : 0,
-                      pointerEvents: showControls ? "auto" : "none",
-                      transition: "opacity 300ms",
-                    }
-                  : undefined
-              }
-              onMouseEnter={pauseHideTimer}
-              onMouseLeave={resumeHideTimer}
-            >
-              <div className="flex items-center gap-1">
-                <IconButton
-                  aria-label="Zoom out"
-                  variant={atMinZoom ? "disabled" : "secondary"}
-                  disabled={atMinZoom}
-                  onClick={() => setZoom((z) => Math.max(MIN_ZOOM, Math.round((z - ZOOM_STEP) * 100) / 100))}
-                  className="size-8"
-                  style={navStyle(atMinZoom)}
-                >
-                  <ZoomOut className="size-4" />
-                </IconButton>
-                <IconButton
-                  aria-label="Zoom in"
-                  variant={atMaxZoom ? "disabled" : "secondary"}
-                  disabled={atMaxZoom}
-                  onClick={() => setZoom((z) => Math.min(MAX_ZOOM, Math.round((z + ZOOM_STEP) * 100) / 100))}
-                  className="size-8"
-                  style={navStyle(atMaxZoom)}
-                >
-                  <ZoomIn className="size-4" />
-                </IconButton>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <IconButton
-                  aria-label="First page"
-                  variant={atFirst ? "disabled" : "secondary"}
-                  disabled={atFirst}
-                  onClick={() => goToSpread(0)}
-                  className="size-8"
-                  style={navStyle(atFirst)}
-                >
-                  <ChevronFirst className="size-4" />
-                </IconButton>
-                <IconButton
-                  aria-label="Previous page"
-                  variant={atFirst ? "disabled" : "secondary"}
-                  disabled={atFirst}
-                  onClick={() => goToSpread(spreadIndex - 1)}
-                  className="size-9"
-                  style={navStyle(atFirst)}
-                >
-                  <ChevronLeft className="size-5" />
-                </IconButton>
-
-                <div
-                  className="flex min-w-[110px] items-center justify-center text-sm"
-                  style={isFullscreen ? { color: "rgba(255,255,255,0.85)" } : undefined}
-                >
-                  {isEditingPage ? (
-                    <input
-                      autoFocus
-                      inputMode="numeric"
-                      value={editValue}
-                      onChange={(e) => setEditValue(e.target.value)}
-                      onKeyDown={handleEditKeyDown}
-                      onBlur={() => setIsEditingPage(false)}
-                      className={cn(
-                        "w-14 border-b border-dashed bg-transparent text-center outline-none",
-                        !editInvalid && "border-caption/50 text-caption",
-                      )}
-                      style={editInvalid ? { borderColor: "#ef4444", color: "#ef4444" } : undefined}
-                    />
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={startEditing}
-                      className={cn(
-                        !isFullscreen && "text-caption",
-                        "underline-offset-2 hover:underline",
-                      )}
-                    >
-                      {displayLabel} of {numPages}
-                    </button>
-                  )}
-                </div>
-
-                <IconButton
-                  aria-label="Next page"
-                  variant={atLast ? "disabled" : "secondary"}
-                  disabled={atLast}
-                  onClick={() => goToSpread(spreadIndex + 1)}
-                  className="size-9"
-                  style={navStyle(atLast)}
-                >
-                  <ChevronRight className="size-5" />
-                </IconButton>
-                <IconButton
-                  aria-label="Last page"
-                  variant={atLast ? "disabled" : "secondary"}
-                  disabled={atLast}
-                  onClick={() => goToSpread(spreads.length - 1)}
-                  className="size-8"
-                  style={navStyle(atLast)}
-                >
-                  <ChevronLast className="size-4" />
-                </IconButton>
-              </div>
-
-              <IconButton
-                aria-label={isFullscreen ? "Exit full screen" : "Enter full screen"}
-                onClick={() => setIsFullscreen((v) => !v)}
-                className="size-8"
-                style={navStyle(false)}
-              >
-                {isFullscreen ? <Minimize className="size-4" /> : <Maximize className="size-4" />}
-              </IconButton>
+          {numPages && !failed && !isFullscreen && (
+            <div className="flex w-full items-center justify-between">
+              {zoomGroup}
+              {paginationGroup}
+              {maximizeButton}
             </div>
+          )}
+
+          {numPages && !failed && isFullscreen && (
+            <>
+              <div
+                className="grid w-full grid-cols-3 items-center"
+                style={{
+                  position: "absolute",
+                  left: 24,
+                  right: 24,
+                  bottom: 24,
+                  opacity: showControls ? 1 : 0,
+                  pointerEvents: showControls ? "auto" : "none",
+                  transition: "opacity 300ms",
+                }}
+                onMouseEnter={pauseHideTimer}
+                onMouseLeave={resumeHideTimer}
+              >
+                <div className="justify-self-start">{zoomGroup}</div>
+                <div className="justify-self-center">{paginationGroup}</div>
+              </div>
+
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: 24,
+                  right: 24,
+                  opacity: showControls ? 1 : 0,
+                  pointerEvents: showControls ? "auto" : "none",
+                  transition: "opacity 300ms",
+                }}
+                onMouseEnter={pauseHideTimer}
+                onMouseLeave={resumeHideTimer}
+              >
+                {maximizeButton}
+              </div>
+            </>
           )}
         </div>
       </div>
