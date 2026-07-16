@@ -284,8 +284,8 @@ export const archiveDetails: Record<string, ArchiveDetail> = {
       },
       {
         type: "pdf",
-        url: "https://208fpyz8khe4yqyd.public.blob.vercel-storage.com/thesis.pdf",
-        previewUrl: "https://208fpyz8khe4yqyd.public.blob.vercel-storage.com/thesis-preview.pdf",
+        url: "https://pub-1e1e0e4d047847bbad37d4cf58fd6bab.r2.dev/thesis.pdf",
+        previewUrl: "https://pub-1e1e0e4d047847bbad37d4cf58fd6bab.r2.dev/thesis-preview.pdf",
         caption: "Click through the full thesis book above.",
       },
     ],
