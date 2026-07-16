@@ -17,6 +17,8 @@ import {
   ChevronRight,
   Maximize,
   Minimize,
+  ZoomIn,
+  ZoomOut,
 } from "@/components/icons";
 import type { PageCallback } from "react-pdf/dist/shared/types.js";
 
@@ -28,12 +30,17 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   import.meta.url,
 ).toString();
 
-const NORMAL_MAX_WIDTH = 720;
-const FULLSCREEN_MAX_WIDTH = 1400;
+const FIXED_PAGE_WIDTH = 340;
+const FULLSCREEN_BASE_MAX = 700;
+const FULLSCREEN_MARGIN = 32;
 const GAP = 8;
+const MIN_ZOOM = 0.6;
+const MAX_ZOOM = 2.4;
+const ZOOM_STEP = 0.2;
 // Used only until the first page reports its real size, so the reserved
-// box has a sane shape to render before that's known.
-const FALLBACK_BOX_ASPECT = 1.5;
+// height is sane before that's known.
+const FALLBACK_PAGE_ASPECT = 0.75;
+const CONTROLS_HIDE_DELAY = 2500;
 
 /** Every page pairs into a left+right spread, including the cover — only a
  * trailing odd page (if numPages is odd) ever renders alone. */
@@ -49,22 +56,25 @@ export function PdfReader({ url, caption }: { url: string; caption?: string }) {
   const [numPages, setNumPages] = useState<number>();
   const [spreadIndex, setSpreadIndex] = useState(0);
   const [pageAspect, setPageAspect] = useState<number>();
-  const [boxWidth, setBoxWidth] = useState(NORMAL_MAX_WIDTH);
-  const [fullscreenWidthCap, setFullscreenWidthCap] = useState(FULLSCREEN_MAX_WIDTH);
+  const [cardInnerWidth, setCardInnerWidth] = useState(FIXED_PAGE_WIDTH * 2 + GAP);
+  const [fullscreenPageCap, setFullscreenPageCap] = useState(FULLSCREEN_BASE_MAX);
+  const [zoom, setZoom] = useState(1);
   const [failed, setFailed] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isEditingPage, setIsEditingPage] = useState(false);
   const [editValue, setEditValue] = useState("");
-  const boxRef = useRef<HTMLDivElement>(null);
+  const [controlsVisible, setControlsVisible] = useState(true);
+  const cardContentRef = useRef<HTMLDivElement>(null);
+  const hideTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   const spreads = useMemo(() => buildSpreads(numPages ?? 0), [numPages]);
   const currentSpread = spreads[spreadIndex] ?? [];
 
   useEffect(() => {
-    const el = boxRef.current;
+    const el = cardContentRef.current;
     if (!el) return;
     const observer = new ResizeObserver(([entry]) => {
-      setBoxWidth(entry.contentRect.width);
+      setCardInnerWidth(entry.contentRect.width);
     });
     observer.observe(el);
     return () => observer.disconnect();
@@ -83,25 +93,44 @@ export function PdfReader({ url, caption }: { url: string; caption?: string }) {
     };
   }, [isFullscreen]);
 
-  // Cap the box by whichever runs out first — viewport width, or the height
-  // left over after the surrounding padding/nav row — so a tall spread never
-  // overflows a short viewport.
+  // Per-page width cap for fullscreen — whichever runs out first, viewport
+  // width or height, so a tall spread never overflows a short viewport.
   useEffect(() => {
     if (!isFullscreen) return;
-    const shapeAspect = pageAspect ? pageAspect * 2 : FALLBACK_BOX_ASPECT;
-    const RESERVED_VERTICAL = 220;
     function recompute() {
-      const availableWidth = window.innerWidth - 48;
-      const availableHeight = window.innerHeight - RESERVED_VERTICAL;
-      const heightBasedWidth = availableHeight * shapeAspect;
-      setFullscreenWidthCap(
-        Math.max(200, Math.min(FULLSCREEN_MAX_WIDTH, availableWidth, heightBasedWidth)),
+      const availableWidth = window.innerWidth - FULLSCREEN_MARGIN * 2;
+      const availableHeight = window.innerHeight - FULLSCREEN_MARGIN * 2;
+      const perPageFromWidth = (availableWidth - GAP) / 2;
+      const perPageFromHeight = availableHeight * (pageAspect ?? FALLBACK_PAGE_ASPECT);
+      setFullscreenPageCap(
+        Math.max(100, Math.min(FULLSCREEN_BASE_MAX, perPageFromWidth, perPageFromHeight)),
       );
     }
     recompute();
     window.addEventListener("resize", recompute);
     return () => window.removeEventListener("resize", recompute);
   }, [isFullscreen, pageAspect]);
+
+  // Fullscreen-only: controls float over the page and fade out once the
+  // cursor stops moving, reappearing on the next movement.
+  useEffect(() => {
+    if (!isFullscreen) return;
+    function scheduleHide() {
+      clearTimeout(hideTimerRef.current);
+      if (isEditingPage) return;
+      hideTimerRef.current = setTimeout(() => setControlsVisible(false), CONTROLS_HIDE_DELAY);
+    }
+    function handleActivity() {
+      setControlsVisible(true);
+      scheduleHide();
+    }
+    handleActivity();
+    window.addEventListener("mousemove", handleActivity);
+    return () => {
+      clearTimeout(hideTimerRef.current);
+      window.removeEventListener("mousemove", handleActivity);
+    };
+  }, [isFullscreen, isEditingPage]);
 
   function handlePageLoadSuccess(page: PageCallback) {
     setPageAspect((current) => current ?? page.originalWidth / page.originalHeight);
@@ -135,12 +164,16 @@ export function PdfReader({ url, caption }: { url: string; caption?: string }) {
     }
   }
 
-  const pageWidth = Math.max(0, (boxWidth - GAP) / 2);
-  const pageHeight = pageAspect ? pageWidth / pageAspect : undefined;
-  const boxAspect = pageHeight ? boxWidth / pageHeight : FALLBACK_BOX_ASPECT;
+  const basePageWidth = isFullscreen
+    ? fullscreenPageCap
+    : Math.min(FIXED_PAGE_WIDTH, Math.max(0, (cardInnerWidth - GAP) / 2));
+  const pageWidth = basePageWidth * zoom;
+  const pageHeight = pageWidth / (pageAspect ?? FALLBACK_PAGE_ASPECT);
 
   const atFirst = spreadIndex <= 0;
   const atLast = spreadIndex >= spreads.length - 1;
+  const atMinZoom = zoom <= MIN_ZOOM;
+  const atMaxZoom = zoom >= MAX_ZOOM;
   const navStyle = (disabled: boolean) =>
     isFullscreen
       ? { color: disabled ? "rgba(255,255,255,0.3)" : "rgba(255,255,255,0.85)" }
@@ -150,148 +183,200 @@ export function PdfReader({ url, caption }: { url: string; caption?: string }) {
     currentSpread.length === 2
       ? `Pages ${currentSpread[0]}–${currentSpread[1]}`
       : `Page ${currentSpread[0] ?? "–"}`;
+  const showControls = !isFullscreen || controlsVisible;
+
+  function pauseHideTimer() {
+    if (isFullscreen) clearTimeout(hideTimerRef.current);
+  }
+  function resumeHideTimer() {
+    if (isFullscreen && !isEditingPage) {
+      hideTimerRef.current = setTimeout(() => setControlsVisible(false), CONTROLS_HIDE_DELAY);
+    }
+  }
 
   return (
-    <div
-      className={cn(
-        "flex flex-col gap-3",
-        isFullscreen && "fixed inset-0 z-50 items-center justify-center p-6",
-      )}
-      style={isFullscreen ? { backgroundColor: "#000" } : undefined}
-    >
+    <div className="flex flex-col gap-3">
       <div
-        className="mx-auto w-full"
-        style={{
-          position: "relative",
-          maxWidth: isFullscreen ? fullscreenWidthCap : NORMAL_MAX_WIDTH,
-        }}
+        className={cn(
+          "w-full",
+          isFullscreen ? "fixed inset-0 z-50" : "rounded-xl bg-card p-6 sm:p-8",
+        )}
+        style={isFullscreen ? { backgroundColor: "#000" } : undefined}
       >
         <div
-          ref={boxRef}
-          className="mx-auto w-full overflow-hidden rounded-xl bg-card"
-          style={{ aspectRatio: boxAspect }}
+          className={cn("flex flex-col gap-4", isFullscreen && "h-full justify-center")}
         >
-          <Document
-            file={url}
-            onLoadSuccess={({ numPages }) => setNumPages(numPages)}
-            onLoadError={() => setFailed(true)}
-            loading={
-              <div className="flex h-full items-center justify-center text-sm text-caption">
-                Loading book…
-              </div>
-            }
-            error={
-              <div className="flex h-full items-center justify-center text-sm text-caption">
-                Couldn’t load the PDF.
-              </div>
-            }
-          >
-            <div className="flex h-full items-center justify-center" style={{ gap: GAP }}>
-              {currentSpread.map((p) => (
-                <Page
-                  key={p}
-                  pageNumber={p}
-                  width={pageWidth}
-                  loading={null}
-                  renderTextLayer={false}
-                  renderAnnotationLayer={false}
-                  onLoadSuccess={handlePageLoadSuccess}
-                />
-              ))}
-            </div>
-          </Document>
-        </div>
-
-        <IconButton
-          aria-label={isFullscreen ? "Exit full screen" : "Enter full screen"}
-          onClick={() => setIsFullscreen((v) => !v)}
-          className="size-8 rounded-md"
-          style={{
-            position: "absolute",
-            bottom: 12,
-            right: 12,
-            color: "rgba(255,255,255,0.85)",
-            backgroundColor: "rgba(0,0,0,0.4)",
-          }}
-        >
-          {isFullscreen ? <Minimize className="size-4" /> : <Maximize className="size-4" />}
-        </IconButton>
-      </div>
-
-      {numPages && !failed && (
-        <div className="flex items-center justify-center gap-3">
-          <IconButton
-            aria-label="First page"
-            variant={atFirst ? "disabled" : "secondary"}
-            disabled={atFirst}
-            onClick={() => goToSpread(0)}
-            className="size-8"
-            style={navStyle(atFirst)}
-          >
-            <ChevronFirst className="size-4" />
-          </IconButton>
-          <IconButton
-            aria-label="Previous page"
-            variant={atFirst ? "disabled" : "secondary"}
-            disabled={atFirst}
-            onClick={() => goToSpread(spreadIndex - 1)}
-            className="size-9"
-            style={navStyle(atFirst)}
-          >
-            <ChevronLeft className="size-5" />
-          </IconButton>
-
-          <div
-            className="flex min-w-[110px] items-center justify-center text-sm"
-            style={isFullscreen ? { color: "rgba(255,255,255,0.85)" } : undefined}
-          >
-            {isEditingPage ? (
-              <input
-                autoFocus
-                inputMode="numeric"
-                value={editValue}
-                onChange={(e) => setEditValue(e.target.value)}
-                onKeyDown={handleEditKeyDown}
-                onBlur={() => setIsEditingPage(false)}
-                className={cn(
-                  "w-14 border-b border-dashed bg-transparent text-center outline-none",
-                  !editInvalid && "border-caption/50 text-caption",
-                )}
-                style={editInvalid ? { borderColor: "#ef4444", color: "#ef4444" } : undefined}
-              />
-            ) : (
-              <button
-                type="button"
-                onClick={startEditing}
-                className={cn(!isFullscreen && "text-caption", "underline-offset-2 hover:underline")}
+          <div ref={cardContentRef} className="w-full overflow-x-auto">
+            <Document
+              file={url}
+              onLoadSuccess={({ numPages }) => setNumPages(numPages)}
+              onLoadError={() => setFailed(true)}
+              loading={
+                <div
+                  className="mx-auto flex items-center justify-center text-sm text-caption"
+                  style={{ width: pageWidth, height: pageHeight }}
+                >
+                  Loading book…
+                </div>
+              }
+              error={
+                <div
+                  className="mx-auto flex items-center justify-center text-sm text-caption"
+                  style={{ width: pageWidth, height: pageHeight }}
+                >
+                  Couldn’t load the PDF.
+                </div>
+              }
+            >
+              <div
+                className="mx-auto flex items-center justify-center"
+                style={{ gap: GAP, height: pageHeight, width: "fit-content" }}
               >
-                {displayLabel} of {numPages}
-              </button>
-            )}
+                {currentSpread.map((p) => (
+                  <Page
+                    key={p}
+                    pageNumber={p}
+                    width={pageWidth}
+                    loading={null}
+                    renderTextLayer={false}
+                    renderAnnotationLayer={false}
+                    onLoadSuccess={handlePageLoadSuccess}
+                  />
+                ))}
+              </div>
+            </Document>
           </div>
 
-          <IconButton
-            aria-label="Next page"
-            variant={atLast ? "disabled" : "secondary"}
-            disabled={atLast}
-            onClick={() => goToSpread(spreadIndex + 1)}
-            className="size-9"
-            style={navStyle(atLast)}
-          >
-            <ChevronRight className="size-5" />
-          </IconButton>
-          <IconButton
-            aria-label="Last page"
-            variant={atLast ? "disabled" : "secondary"}
-            disabled={atLast}
-            onClick={() => goToSpread(spreads.length - 1)}
-            className="size-8"
-            style={navStyle(atLast)}
-          >
-            <ChevronLast className="size-4" />
-          </IconButton>
+          {numPages && !failed && (
+            <div
+              className="flex w-full items-center justify-between"
+              style={
+                isFullscreen
+                  ? {
+                      position: "absolute",
+                      left: 24,
+                      right: 24,
+                      bottom: 24,
+                      opacity: showControls ? 1 : 0,
+                      pointerEvents: showControls ? "auto" : "none",
+                      transition: "opacity 300ms",
+                    }
+                  : undefined
+              }
+              onMouseEnter={pauseHideTimer}
+              onMouseLeave={resumeHideTimer}
+            >
+              <div className="flex items-center gap-1">
+                <IconButton
+                  aria-label="Zoom out"
+                  variant={atMinZoom ? "disabled" : "secondary"}
+                  disabled={atMinZoom}
+                  onClick={() => setZoom((z) => Math.max(MIN_ZOOM, Math.round((z - ZOOM_STEP) * 100) / 100))}
+                  className="size-8"
+                  style={navStyle(atMinZoom)}
+                >
+                  <ZoomOut className="size-4" />
+                </IconButton>
+                <IconButton
+                  aria-label="Zoom in"
+                  variant={atMaxZoom ? "disabled" : "secondary"}
+                  disabled={atMaxZoom}
+                  onClick={() => setZoom((z) => Math.min(MAX_ZOOM, Math.round((z + ZOOM_STEP) * 100) / 100))}
+                  className="size-8"
+                  style={navStyle(atMaxZoom)}
+                >
+                  <ZoomIn className="size-4" />
+                </IconButton>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <IconButton
+                  aria-label="First page"
+                  variant={atFirst ? "disabled" : "secondary"}
+                  disabled={atFirst}
+                  onClick={() => goToSpread(0)}
+                  className="size-8"
+                  style={navStyle(atFirst)}
+                >
+                  <ChevronFirst className="size-4" />
+                </IconButton>
+                <IconButton
+                  aria-label="Previous page"
+                  variant={atFirst ? "disabled" : "secondary"}
+                  disabled={atFirst}
+                  onClick={() => goToSpread(spreadIndex - 1)}
+                  className="size-9"
+                  style={navStyle(atFirst)}
+                >
+                  <ChevronLeft className="size-5" />
+                </IconButton>
+
+                <div
+                  className="flex min-w-[110px] items-center justify-center text-sm"
+                  style={isFullscreen ? { color: "rgba(255,255,255,0.85)" } : undefined}
+                >
+                  {isEditingPage ? (
+                    <input
+                      autoFocus
+                      inputMode="numeric"
+                      value={editValue}
+                      onChange={(e) => setEditValue(e.target.value)}
+                      onKeyDown={handleEditKeyDown}
+                      onBlur={() => setIsEditingPage(false)}
+                      className={cn(
+                        "w-14 border-b border-dashed bg-transparent text-center outline-none",
+                        !editInvalid && "border-caption/50 text-caption",
+                      )}
+                      style={editInvalid ? { borderColor: "#ef4444", color: "#ef4444" } : undefined}
+                    />
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={startEditing}
+                      className={cn(
+                        !isFullscreen && "text-caption",
+                        "underline-offset-2 hover:underline",
+                      )}
+                    >
+                      {displayLabel} of {numPages}
+                    </button>
+                  )}
+                </div>
+
+                <IconButton
+                  aria-label="Next page"
+                  variant={atLast ? "disabled" : "secondary"}
+                  disabled={atLast}
+                  onClick={() => goToSpread(spreadIndex + 1)}
+                  className="size-9"
+                  style={navStyle(atLast)}
+                >
+                  <ChevronRight className="size-5" />
+                </IconButton>
+                <IconButton
+                  aria-label="Last page"
+                  variant={atLast ? "disabled" : "secondary"}
+                  disabled={atLast}
+                  onClick={() => goToSpread(spreads.length - 1)}
+                  className="size-8"
+                  style={navStyle(atLast)}
+                >
+                  <ChevronLast className="size-4" />
+                </IconButton>
+              </div>
+
+              <IconButton
+                aria-label={isFullscreen ? "Exit full screen" : "Enter full screen"}
+                onClick={() => setIsFullscreen((v) => !v)}
+                className="size-8"
+                style={navStyle(false)}
+              >
+                {isFullscreen ? <Minimize className="size-4" /> : <Maximize className="size-4" />}
+              </IconButton>
+            </div>
+          )}
         </div>
-      )}
+      </div>
 
       {caption && !isFullscreen && (
         <p className="max-w-[783px] text-sm text-caption">{caption}</p>
