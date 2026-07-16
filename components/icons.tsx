@@ -153,3 +153,19 @@ export function X(props: IconProps) {
     </svg>
   );
 }
+
+export function ChevronLeft(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" {...stroke} {...props}>
+      <path d="m15 18-6-6 6-6" />
+    </svg>
+  );
+}
+
+export function ChevronRight(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" {...stroke} {...props}>
+      <path d="m9 18 6-6-6-6" />
+    </svg>
+  );
+}

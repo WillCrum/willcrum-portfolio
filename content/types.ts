@@ -121,7 +121,15 @@ export type ArchiveBlock =
         { src: string; width: number; height: number; alt: string },
         { src: string; width: number; height: number; alt: string },
       ];
-    };
+    }
+  /** Rendered at a fixed 16:9 aspect-ratio box (CSS `aspect-ratio`, not the
+   * padding-percentage hack) — the source page's own Vimeo embed collapses
+   * to a 0×0 box there (confirmed: its wrapper computes height:0), so this
+   * deliberately doesn't reuse that approach. */
+  | { type: "video"; provider: "vimeo"; id: string; caption?: string }
+  /** An in-page, page-by-page PDF reader (react-pdf/pdf.js) — `url` should
+   * point at a hosted PDF (e.g. Vercel Blob), not a path under /public. */
+  | { type: "pdf"; url: string; caption?: string };
 
 /** Full long-form content for one archive project's own `/archive/[slug]`
  * page — ported from its original source page. Only projects that have had
@@ -131,6 +139,14 @@ export type ArchiveDetail = {
   slug: string;
   recognition: ArchiveRecognition[];
   blocks: ArchiveBlock[];
+  /** A "below the fold" list of related/sub-projects, rendered with the
+   * same ProjectCard used on the Work and Archive index pages — sits
+   * between `blocks` and `closingBlocks`, matching where it fell in the
+   * source page's own reading order. */
+  subProjects?: Project[];
+  /** Any content that reads after `subProjects` (e.g. a closing note) —
+   * same block model as `blocks`, kept separate only for placement. */
+  closingBlocks?: ArchiveBlock[];
   /** Trailing "read more" citation link, if the source page had one. */
   sourceLink?: { label: string; href: string };
 };

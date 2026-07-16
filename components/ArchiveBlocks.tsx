@@ -1,9 +1,16 @@
 "use client";
 
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { renderInline } from "@/lib/inline";
 import { LightboxProvider, useLightbox } from "@/components/Lightbox";
 import type { ArchiveBlock } from "@/content/types";
+
+// react-pdf touches canvas/DOM APIs that don't exist during SSR.
+const PdfReader = dynamic(
+  () => import("@/components/PdfReader").then((mod) => mod.PdfReader),
+  { ssr: false },
+);
 
 function ClickableImage({
   src,
@@ -102,6 +109,25 @@ function Block({ block }: { block: ArchiveBlock }) {
           ))}
         </div>
       );
+    case "video":
+      return (
+        <div className="flex flex-col gap-2">
+          <div className="aspect-video w-full overflow-hidden rounded-[2px] bg-card">
+            <iframe
+              src={`https://player.vimeo.com/video/${block.id}`}
+              className="size-full"
+              allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+              allowFullScreen
+              title={block.caption ?? "Video"}
+            />
+          </div>
+          {block.caption && (
+            <p className="max-w-[783px] text-sm text-caption">{block.caption}</p>
+          )}
+        </div>
+      );
+    case "pdf":
+      return <PdfReader url={block.url} caption={block.caption} />;
   }
 }
 

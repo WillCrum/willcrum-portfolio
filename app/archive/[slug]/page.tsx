@@ -3,6 +3,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Container } from "@/components/ui/Container";
 import { Tag } from "@/components/ui/Tag";
+import { ProjectCard } from "@/components/ProjectCard";
 import { ArchiveBlocks } from "@/components/ArchiveBlocks";
 import { Award, Newspaper } from "@/components/icons";
 import { archiveProjects } from "@/content/archive";
@@ -93,6 +94,14 @@ export default async function ArchiveProjectPage({
       {detail ? (
         <>
           <ArchiveBlocks blocks={detail.blocks} />
+          {detail.subProjects && detail.subProjects.length > 0 && (
+            <div className="flex flex-col gap-10">
+              {detail.subProjects.map((sub) => (
+                <ProjectCard key={sub.slug} project={sub} />
+              ))}
+            </div>
+          )}
+          {detail.closingBlocks && <ArchiveBlocks blocks={detail.closingBlocks} />}
           {detail.sourceLink && (
             <p className="max-w-[783px] text-lg leading-[1.4] text-body">
               {renderInline(
