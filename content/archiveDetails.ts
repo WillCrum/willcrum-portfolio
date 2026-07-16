@@ -1,4 +1,5 @@
 import type { ArchiveDetail } from "@/content/types";
+import { archiveProjects } from "@/content/archive";
 
 // Long-form archive project pages, ported from their original Squarespace
 // source as directly as possible. Two deliberate departures from source,
@@ -289,123 +290,12 @@ export const archiveDetails: Record<string, ArchiveDetail> = {
         caption: "Click through the full thesis book above.",
       },
     ],
-    // Placeholder cards for layout/functionality only — real copy for each
-    // of these 7 thesis sub-projects is still being drafted; swap in real
-    // hero photos, tags, and body copy once that's ready.
-    subProjects: [
-      {
-        slug: "babi",
-        company: "Me, Myself & A.I.",
-        logo: "/images/archive-logo-thesis.svg",
-        logoAlt: "SVA NYC | MM&AI",
-        logoAspect: 162.461 / 38.2727,
-        headline: "Babi",
-        body: "Babi is a speculative object that imagines an AI assistant like Google Home or Alexa with an anthropomorphic makeover. Placeholder copy — final description coming soon.",
-        tags: ["AI/ML", "0->1"],
-        hero: {
-          alt: "Placeholder image for Babi",
-          src: "/images/archive-placeholder-hero.svg",
-          fit: "cover",
-        },
-        cta: { label: "Learn more", href: "#" },
-      },
-      {
-        slug: "human-resourcing-dept",
-        company: "Me, Myself & A.I.",
-        logo: "/images/archive-logo-thesis.svg",
-        logoAlt: "SVA NYC | MM&AI",
-        logoAspect: 162.461 / 38.2727,
-        headline: "Human Resourcing Dept.",
-        body: "The job placement agency of the future, sorting participants into a future job based on an “AI” interview. Placeholder copy — final description coming soon.",
-        tags: ["AI/ML", "0->1"],
-        hero: {
-          alt: "Placeholder image for Human Resourcing Dept.",
-          src: "/images/archive-placeholder-hero.svg",
-          fit: "cover",
-        },
-        cta: { label: "Learn more", href: "#" },
-      },
-      {
-        slug: "staygo",
-        company: "Me, Myself & A.I.",
-        logo: "/images/archive-logo-thesis.svg",
-        logoAlt: "SVA NYC | MM&AI",
-        logoAspect: 162.461 / 38.2727,
-        headline: "StayGo",
-        body: "A service that transforms semi-autonomous truck cabs into mobile offices. Placeholder copy — final description coming soon.",
-        tags: ["AI/ML", "0->1"],
-        hero: {
-          alt: "Placeholder image for StayGo",
-          src: "/images/archive-placeholder-hero.svg",
-          fit: "cover",
-        },
-        cta: { label: "Learn more", href: "#" },
-      },
-      {
-        slug: "classmates",
-        company: "Me, Myself & A.I.",
-        logo: "/images/archive-logo-thesis.svg",
-        logoAlt: "SVA NYC | MM&AI",
-        logoAspect: 162.461 / 38.2727,
-        headline: "Classmates",
-        body: "An app that uses a chatbot interface to help career-changers find a new role that fits their preferences and personality. Placeholder copy — final description coming soon.",
-        tags: ["AI/ML", "0->1"],
-        hero: {
-          alt: "Placeholder image for Classmates",
-          src: "/images/archive-placeholder-hero.svg",
-          fit: "cover",
-        },
-        cta: { label: "Learn more", href: "#" },
-      },
-      {
-        slug: "jade",
-        company: "Me, Myself & A.I.",
-        logo: "/images/archive-logo-thesis.svg",
-        logoAlt: "SVA NYC | MM&AI",
-        logoAspect: 162.461 / 38.2727,
-        headline: "Jade",
-        body: "A wearable device designed to help the elderly remain independent for longer. Placeholder copy — final description coming soon.",
-        tags: ["AI/ML", "0->1"],
-        hero: {
-          alt: "Placeholder image for Jade",
-          src: "/images/archive-placeholder-hero.svg",
-          fit: "cover",
-        },
-        cta: { label: "Learn more", href: "#" },
-      },
-      {
-        slug: "water-token",
-        company: "Me, Myself & A.I.",
-        logo: "/images/archive-logo-thesis.svg",
-        logoAlt: "SVA NYC | MM&AI",
-        logoAspect: 162.461 / 38.2727,
-        headline: "Water Token",
-        body: "A basic income program designed to create a more equitable distribution of water, outlined as a policy proposal for the state of California. Placeholder copy — final description coming soon.",
-        tags: ["AI/ML", "0->1"],
-        hero: {
-          alt: "Placeholder image for Water Token",
-          src: "/images/archive-placeholder-hero.svg",
-          fit: "cover",
-        },
-        cta: { label: "Learn more", href: "#" },
-      },
-      {
-        slug: "xharo",
-        company: "Me, Myself & A.I.",
-        logo: "/images/archive-logo-thesis.svg",
-        logoAlt: "SVA NYC | MM&AI",
-        logoAspect: 162.461 / 38.2727,
-        headline: "Xharo",
-        body: "A ritualized gift exchange service designed to help neighbors connect beyond the barriers of their daily lives. Placeholder copy — final description coming soon.",
-        tags: ["AI/ML", "0->1"],
-        hero: {
-          alt: "Placeholder image for Xharo",
-          src: "/images/archive-placeholder-hero.svg",
-          fit: "cover",
-        },
-        cta: { label: "Learn more", href: "#" },
-      },
-    ],
+    // Derived rather than duplicated — these are the same entries that
+    // appear as their own cards on the /archive index page (see
+    // content/archive.ts), so both stay in sync automatically.
+    subProjects: archiveProjects.filter(
+      (p) => p.category === "Thesis" && p.slug !== "thesis",
+    ),
     closingBlocks: [
       {
         type: "paragraph",
