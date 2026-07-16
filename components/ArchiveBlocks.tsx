@@ -127,7 +127,9 @@ function Block({ block }: { block: ArchiveBlock }) {
         </div>
       );
     case "pdf":
-      return <PdfReader url={block.url} caption={block.caption} />;
+      return (
+        <PdfReader url={block.url} previewUrl={block.previewUrl} caption={block.caption} />
+      );
   }
 }
 

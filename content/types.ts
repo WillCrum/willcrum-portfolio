@@ -128,8 +128,12 @@ export type ArchiveBlock =
    * deliberately doesn't reuse that approach. */
   | { type: "video"; provider: "vimeo"; id: string; caption?: string }
   /** An in-page, page-by-page PDF reader (react-pdf/pdf.js) — `url` should
-   * point at a hosted PDF (e.g. Vercel Blob), not a path under /public. */
-  | { type: "pdf"; url: string; caption?: string };
+   * point at a hosted PDF (e.g. Vercel Blob), not a path under /public.
+   * `previewUrl`, if given, is a small (e.g. first few pages) version of
+   * the same file, shown until the reader is first interacted with — the
+   * full `url` only loads then, so a casual page view never pulls the
+   * whole file. */
+  | { type: "pdf"; url: string; previewUrl?: string; caption?: string };
 
 /** Full long-form content for one archive project's own `/archive/[slug]`
  * page — ported from its original source page. Only projects that have had

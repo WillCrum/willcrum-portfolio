@@ -52,7 +52,15 @@ function buildSpreads(numPages: number): number[][] {
   return spreads;
 }
 
-export function PdfReader({ url, caption }: { url: string; caption?: string }) {
+export function PdfReader({
+  url,
+  previewUrl,
+  caption,
+}: {
+  url: string;
+  previewUrl?: string;
+  caption?: string;
+}) {
   const [numPages, setNumPages] = useState<number>();
   const [spreadIndex, setSpreadIndex] = useState(0);
   const [pageAspect, setPageAspect] = useState<number>();
@@ -64,11 +72,20 @@ export function PdfReader({ url, caption }: { url: string; caption?: string }) {
   const [isEditingPage, setIsEditingPage] = useState(false);
   const [editValue, setEditValue] = useState("");
   const [controlsVisible, setControlsVisible] = useState(true);
+  // Starts on the small preview (if given) so a casual page view never
+  // pulls the full file — the first interaction with any control upgrades
+  // to the full document in the background.
+  const [useFullDoc, setUseFullDoc] = useState(!previewUrl);
   const cardContentRef = useRef<HTMLDivElement>(null);
   const hideTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
+  const documentUrl = useFullDoc || !previewUrl ? url : previewUrl;
   const spreads = useMemo(() => buildSpreads(numPages ?? 0), [numPages]);
   const currentSpread = spreads[spreadIndex] ?? [];
+
+  function loadFullDoc() {
+    if (!useFullDoc) setUseFullDoc(true);
+  }
 
   useEffect(() => {
     const el = cardContentRef.current;
@@ -137,10 +154,12 @@ export function PdfReader({ url, caption }: { url: string; caption?: string }) {
   }
 
   function goToSpread(index: number) {
+    loadFullDoc();
     setSpreadIndex(Math.max(0, Math.min(index, spreads.length - 1)));
   }
 
   function startEditing() {
+    loadFullDoc();
     setEditValue(String(currentSpread[0] ?? 1));
     setIsEditingPage(true);
   }
@@ -204,7 +223,10 @@ export function PdfReader({ url, caption }: { url: string; caption?: string }) {
         aria-label="Zoom out"
         variant={atMinZoom ? "disabled" : "secondary"}
         disabled={atMinZoom}
-        onClick={() => setZoom((z) => Math.max(MIN_ZOOM, Math.round((z - ZOOM_STEP) * 100) / 100))}
+        onClick={() => {
+          loadFullDoc();
+          setZoom((z) => Math.max(MIN_ZOOM, Math.round((z - ZOOM_STEP) * 100) / 100));
+        }}
         className={cn("size-8", fsBtnClass(atMinZoom))}
         style={navStyle(atMinZoom)}
       >
@@ -214,7 +236,10 @@ export function PdfReader({ url, caption }: { url: string; caption?: string }) {
         aria-label="Zoom in"
         variant={atMaxZoom ? "disabled" : "secondary"}
         disabled={atMaxZoom}
-        onClick={() => setZoom((z) => Math.min(MAX_ZOOM, Math.round((z + ZOOM_STEP) * 100) / 100))}
+        onClick={() => {
+          loadFullDoc();
+          setZoom((z) => Math.min(MAX_ZOOM, Math.round((z + ZOOM_STEP) * 100) / 100));
+        }}
         className={cn("size-8", fsBtnClass(atMaxZoom))}
         style={navStyle(atMaxZoom)}
       >
@@ -306,7 +331,10 @@ export function PdfReader({ url, caption }: { url: string; caption?: string }) {
   const maximizeButton = (
     <IconButton
       aria-label={isFullscreen ? "Exit full screen" : "Enter full screen"}
-      onClick={() => setIsFullscreen((v) => !v)}
+      onClick={() => {
+        loadFullDoc();
+        setIsFullscreen((v) => !v);
+      }}
       className={cn("size-8", fsBtnClass(false))}
       style={navStyle(false)}
     >
@@ -340,7 +368,7 @@ export function PdfReader({ url, caption }: { url: string; caption?: string }) {
         >
           <div ref={cardContentRef} className="w-full overflow-x-auto">
             <Document
-              file={url}
+              file={documentUrl}
               onLoadSuccess={({ numPages }) => setNumPages(numPages)}
               onLoadError={() => setFailed(true)}
               loading={
