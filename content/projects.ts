@@ -1,20 +1,12 @@
 import type { Project } from "@/content/types";
+import { SKILL_TAGS } from "@/content/tags";
 
 // Intro block at the top of the Work page.
 export const workIntro = {
   title: "Skills and projects",
   description:
     "Here are the main design skills, modalities, and frameworks I employ to put my approach into practice — and select projects that showcase them.",
-  skills: [
-    "UI",
-    "UX",
-    "agentic dev",
-    "design systems",
-    "user research",
-    "visual design",
-    "AI/ML",
-    "0->1",
-  ],
+  skills: SKILL_TAGS,
 };
 
 export const projects: Project[] = [

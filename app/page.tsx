@@ -1,41 +1,20 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Container } from "@/components/ui/Container";
 import { HeroMessage } from "@/components/HeroMessage";
-import { WorkIntro } from "@/components/WorkIntro";
+import { PageIntro } from "@/components/PageIntro";
 import { ProjectCard } from "@/components/ProjectCard";
 import { Button } from "@/components/ui/Button";
 import { BackToTopButton } from "@/components/ui/BackToTopButton";
 import { RotateCcw } from "@/components/icons";
-import { projects } from "@/content/projects";
+import { workIntro, projects } from "@/content/projects";
+import { useTagFilter } from "@/lib/useTagFilter";
 
 export default function WorkPage() {
   const [showWorkAsActive, setShowWorkAsActive] = useState(false);
-  const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set());
-
-  function toggleTag(tag: string) {
-    setSelectedTags((prev) => {
-      const next = new Set(prev);
-      if (next.has(tag)) {
-        next.delete(tag);
-      } else {
-        next.add(tag);
-      }
-      return next;
-    });
-  }
-
-  function resetTags() {
-    setSelectedTags(new Set());
-  }
-
-  const visibleProjects = useMemo(() => {
-    if (selectedTags.size === 0) return projects;
-    return projects.filter((project) =>
-      [...selectedTags].every((tag) => project.tags.includes(tag)),
-    );
-  }, [selectedTags]);
+  const { selectedTags, toggleTag, resetTags, visibleItems: visibleProjects } =
+    useTagFilter(projects);
 
   useEffect(() => {
     // Track scroll position to determine when "Work" nav toggle should show as active
@@ -63,7 +42,10 @@ export default function WorkPage() {
     <>
       <HeroMessage />
       <Container className="flex flex-col gap-10 pt-3" id="projects-section">
-        <WorkIntro
+        <PageIntro
+          title={workIntro.title}
+          description={workIntro.description}
+          tags={workIntro.skills}
           selectedTags={selectedTags}
           onToggleTag={toggleTag}
           onReset={resetTags}

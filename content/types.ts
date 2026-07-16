@@ -78,6 +78,63 @@ export type Project = {
   cta: CTA;
 };
 
+/** An older/archived project, grouped under a category eyebrow label (e.g.
+ * "Thesis", "Other") on the Archive page — kept separate from `Project`
+ * rather than added there, since grouping is Archive-only. */
+export type ArchiveProject = Project & { category: string };
+
+/** An award, press mention, or similar credit — shown near an archive
+ * project's tags rather than buried at the bottom, unlike the source page. */
+export type ArchiveRecognition = {
+  label: string;
+  href: string;
+  /** Plain trailing text after the link, e.g. "Strategy & Research / 2017". */
+  detail?: string;
+  icon: "award" | "newspaper";
+};
+
+/** One piece of a long-form archive project page, in reading order. Kept as
+ * a small tagged-union rather than raw HTML/markdown so each block can use
+ * this design system's own typography/components (and both color themes)
+ * instead of re-styling scraped source markup. */
+export type ArchiveBlock =
+  | { type: "heading"; level: 2 | 3; text: string }
+  /** Small all-caps eyebrow label (e.g. a diagram's title) — not a real
+   * heading, doesn't participate in document outline/nav. */
+  | { type: "label"; text: string }
+  | { type: "paragraph"; text: string }
+  /** A pulled-out supporting statement, set apart from body copy. */
+  | { type: "quote"; text: string }
+  | {
+      type: "image";
+      src: string;
+      /** Real pixel dimensions — rendered at intrinsic aspect ratio (never
+       * cropped), scaled responsively via width:100%/height:auto. */
+      width: number;
+      height: number;
+      alt: string;
+      caption?: string;
+    }
+  | {
+      type: "imagePair";
+      images: [
+        { src: string; width: number; height: number; alt: string },
+        { src: string; width: number; height: number; alt: string },
+      ];
+    };
+
+/** Full long-form content for one archive project's own `/archive/[slug]`
+ * page — ported from its original source page. Only projects that have had
+ * their content ported get an entry; others fall back to the minimal
+ * headline/tags/hero template. */
+export type ArchiveDetail = {
+  slug: string;
+  recognition: ArchiveRecognition[];
+  blocks: ArchiveBlock[];
+  /** Trailing "read more" citation link, if the source page had one. */
+  sourceLink?: { label: string; href: string };
+};
+
 export type ProfileLinkKind = "email" | "linkedin" | "resume" | "instagram" | "external";
 
 export type ProfileLink = {
