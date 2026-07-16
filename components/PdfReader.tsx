@@ -35,17 +35,13 @@ const GAP = 8;
 // box has a sane shape to render before that's known.
 const FALLBACK_BOX_ASPECT = 1.5;
 
-/** Front cover and back cover render alone; every page between them pairs
- * up into a left+right spread, matching the book's actual print layout. */
+/** Every page pairs into a left+right spread, including the cover — only a
+ * trailing odd page (if numPages is odd) ever renders alone. */
 function buildSpreads(numPages: number): number[][] {
-  if (numPages <= 2) {
-    return Array.from({ length: numPages }, (_, i) => [i + 1]);
+  const spreads: number[][] = [];
+  for (let p = 1; p <= numPages; p += 2) {
+    spreads.push(p + 1 <= numPages ? [p, p + 1] : [p]);
   }
-  const spreads: number[][] = [[1]];
-  for (let p = 2; p <= numPages - 1; p += 2) {
-    spreads.push(p + 1 <= numPages - 1 ? [p, p + 1] : [p]);
-  }
-  spreads.push([numPages]);
   return spreads;
 }
 
