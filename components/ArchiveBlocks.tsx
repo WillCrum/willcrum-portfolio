@@ -130,13 +130,22 @@ function Block({ block }: { block: ArchiveBlock }) {
         </div>
       );
     case "imageGrid": {
+      // 4-wide grids break straight to 2x2 (no single-column mobile stack) —
+      // a 2-up phone layout reads better than a long single-file scroll for
+      // an even set of images. 2/3-wide grids keep the single-column mobile
+      // fallback, since an odd/small column count doesn't halve as cleanly.
       const colClasses = {
-        2: "sm:grid-cols-2",
-        3: "sm:grid-cols-2 lg:grid-cols-3",
-        4: "sm:grid-cols-2 lg:grid-cols-4",
+        2: "grid-cols-1 sm:grid-cols-2",
+        3: "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3",
+        4: "grid-cols-2 lg:grid-cols-4",
+      } as const;
+      const sizes = {
+        2: "(max-width: 640px) 100vw, 582px",
+        3: "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 388px",
+        4: "(max-width: 1024px) 50vw, 291px",
       } as const;
       return (
-        <div className={cn("grid grid-cols-1 gap-4", colClasses[block.columns])}>
+        <div className={cn("grid gap-4", colClasses[block.columns])}>
           {block.images.map((img) => (
             <ClickableImage
               key={img.src}
@@ -145,7 +154,7 @@ function Block({ block }: { block: ArchiveBlock }) {
               width={img.width}
               height={img.height}
               square
-              sizes={`(max-width: 640px) 100vw, (max-width: 1024px) 50vw, ${Math.floor(1164 / block.columns)}px`}
+              sizes={sizes[block.columns]}
             />
           ))}
         </div>
