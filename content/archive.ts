@@ -96,6 +96,11 @@ export const archiveProjects: ArchiveProject[] = [
       src: "/images/archive-jade-hero.webp",
       fit: "cover",
     },
+    pageHero: {
+      alt: "The Jade pendant and its charging stand, shown alongside its wordmark",
+      src: "/images/jade/page-hero.webp",
+      fit: "cover",
+    },
     cta: {
       label: "Read more",
       href: "/archive/jade",
