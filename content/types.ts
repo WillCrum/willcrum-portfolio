@@ -122,6 +122,14 @@ export type ArchiveBlock =
         { src: string; width: number; height: number; alt: string },
       ];
     }
+  /** A larger uniform gallery (e.g. a run of process photos) — `columns` is
+   * the desktop column count; it steps down responsively the same way
+   * `imagePair` does. */
+  | {
+      type: "imageGrid";
+      columns: 2 | 3 | 4;
+      images: { src: string; width: number; height: number; alt: string }[];
+    }
   /** Rendered at a fixed 16:9 aspect-ratio box (CSS `aspect-ratio`, not the
    * padding-percentage hack) — the source page's own Vimeo embed collapses
    * to a 0×0 box there (confirmed: its wrapper computes height:0), so this

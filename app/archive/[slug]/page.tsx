@@ -72,7 +72,7 @@ export default async function ArchiveProjectPage({
 
   return (
     <Container className="flex flex-col gap-8 pt-3">
-      <h1 className="max-w-[783px] text-[32px] font-semibold leading-[1.05] tracking-[-0.32px] text-headline">
+      <h1 className="text-[32px] font-semibold leading-[1.05] tracking-[-0.32px] text-headline">
         {project.headline}
       </h1>
 

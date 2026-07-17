@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import dynamic from "next/dynamic";
+import { cn } from "@/lib/cn";
 import { renderInline } from "@/lib/inline";
 import { LightboxProvider, useLightbox } from "@/components/Lightbox";
 import type { ArchiveBlock } from "@/content/types";
@@ -18,14 +19,31 @@ function ClickableImage({
   width,
   height,
   sizes,
+  square,
 }: {
   src: string;
   alt: string;
   width: number;
   height: number;
   sizes: string;
+  /** Renders inside a fixed 1:1 cell (for grid layouts) with the image
+   * letterboxed via object-contain, rather than scaled to its own intrinsic
+   * aspect ratio — so a grid of mixed-orientation photos still lines up. */
+  square?: boolean;
 }) {
   const { open } = useLightbox();
+  if (square) {
+    return (
+      <button
+        type="button"
+        onClick={() => open({ src, alt })}
+        aria-label={`View full size: ${alt}`}
+        className="relative block aspect-square w-full cursor-zoom-in overflow-hidden rounded-[2px] bg-card"
+      >
+        <Image src={src} alt={alt} fill className="object-contain" sizes={sizes} />
+      </button>
+    );
+  }
   return (
     <button
       type="button"
@@ -109,6 +127,28 @@ function Block({ block }: { block: ArchiveBlock }) {
           ))}
         </div>
       );
+    case "imageGrid": {
+      const colClasses = {
+        2: "sm:grid-cols-2",
+        3: "sm:grid-cols-2 lg:grid-cols-3",
+        4: "sm:grid-cols-2 lg:grid-cols-4",
+      } as const;
+      return (
+        <div className={cn("grid grid-cols-1 gap-4", colClasses[block.columns])}>
+          {block.images.map((img) => (
+            <ClickableImage
+              key={img.src}
+              src={img.src}
+              alt={img.alt}
+              width={img.width}
+              height={img.height}
+              square
+              sizes={`(max-width: 640px) 100vw, (max-width: 1024px) 50vw, ${Math.floor(1164 / block.columns)}px`}
+            />
+          ))}
+        </div>
+      );
+    }
     case "video":
       return (
         <div className="flex flex-col gap-2">
