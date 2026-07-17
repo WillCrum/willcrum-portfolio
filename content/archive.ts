@@ -225,6 +225,13 @@ export const archiveProjects: ArchiveProject[] = [
       src: "/images/archive-move-hero.webp",
       fit: "cover",
     },
+    pageHero: {
+      alt: "A protester holds a MOVE-branded \"BLM\" megaphone sign at a Times Square rally",
+      src: "/images/move/01-hero.webp",
+      fit: "cover",
+      width: 2397,
+      height: 1348,
+    },
     cta: {
       label: "Read more",
       href: "/archive/move",
