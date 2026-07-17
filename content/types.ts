@@ -139,6 +139,10 @@ export type ArchiveBlock =
    * to a 0×0 box there (confirmed: its wrapper computes height:0), so this
    * deliberately doesn't reuse that approach. */
   | { type: "video"; provider: "vimeo"; id: string; caption?: string }
+  /** A self-hosted file (e.g. R2), rendered as a plain HTML5 <video> with
+   * native controls — used when Vimeo isn't viable (e.g. a copyright
+   * takedown), since a self-hosted file is never scanned/flagged. */
+  | { type: "video"; provider: "file"; url: string; caption?: string }
   /** An in-page, page-by-page PDF reader (react-pdf/pdf.js) — `url` should
    * point at a hosted PDF (e.g. Vercel Blob), not a path under /public.
    * `previewUrl`, if given, is a small (e.g. first few pages) version of

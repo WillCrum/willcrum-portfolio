@@ -155,13 +155,17 @@ function Block({ block }: { block: ArchiveBlock }) {
       return (
         <div className="flex flex-col gap-2">
           <div className="aspect-video w-full overflow-hidden rounded-[2px] bg-card">
-            <iframe
-              src={`https://player.vimeo.com/video/${block.id}`}
-              className="size-full"
-              allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
-              allowFullScreen
-              title={block.caption ?? "Video"}
-            />
+            {block.provider === "vimeo" ? (
+              <iframe
+                src={`https://player.vimeo.com/video/${block.id}`}
+                className="size-full"
+                allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+                allowFullScreen
+                title={block.caption ?? "Video"}
+              />
+            ) : (
+              <video src={block.url} className="size-full" controls />
+            )}
           </div>
           {block.caption && (
             <p className="max-w-[783px] text-sm text-caption">{block.caption}</p>

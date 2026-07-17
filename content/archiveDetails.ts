@@ -614,7 +614,14 @@ export const archiveDetails: Record<string, ArchiveDetail> = {
         text: "Jade is a wearable device designed to help the elderly remain independent for longer. When Jade notices a worrisome deviation from its wearer’s routine, the pendant vibrates to indicate that it’s concerned. Users can squeeze the pendant to let Jade know that everything is fine — but if they don’t, help will soon be on the way.",
       },
       // The original Vimeo embed (id 265844265) was taken down for music
-      // copyright reasons — waiting on a self-hosted replacement file.
+      // copyright reasons, so this is self-hosted on R2 instead — a plain
+      // file is never scanned/flagged the way a Vimeo/YouTube upload is.
+      {
+        type: "video",
+        provider: "file",
+        url: "https://pub-1e1e0e4d047847bbad37d4cf58fd6bab.r2.dev/jade-walk-in-the-park.mp4",
+        caption: "Watch Jade in action.",
+      },
       { type: "heading", level: 2, text: "Problem" },
       {
         type: "paragraph",
