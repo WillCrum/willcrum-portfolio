@@ -771,5 +771,11 @@ export const archiveDetails: Record<string, ArchiveDetail> = {
         alt: "The final Jade pendant, held in hand",
       },
     ],
+    closingBlocks: [
+      {
+        type: "paragraph",
+        text: "Jade was developed as part of my master’s thesis, *Me, Myself & A.I.: How I Learned to Love the Machine That Took my Job*. [You can watch my thesis video, read my thesis book, and see my other thesis projects here.](/archive/thesis)",
+      },
+    ],
   },
 };
