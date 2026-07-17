@@ -198,6 +198,13 @@ export const archiveProjects: ArchiveProject[] = [
       src: "/images/archive-xharo-hero.webp",
       fit: "cover",
     },
+    pageHero: {
+      alt: "A Facebook ad for Xharo's launch promotion, reading \"Everybody's Lonely,\" shown on a phone",
+      src: "/images/xharo/01-hero.webp",
+      fit: "cover",
+      width: 2500,
+      height: 1406,
+    },
     cta: {
       label: "Read more",
       href: "/archive/xharo",
