@@ -94,7 +94,7 @@ function Block({ block }: { block: ArchiveBlock }) {
     case "quote":
       return (
         <blockquote className="max-w-[783px] border-l-2 border-focus pl-5 text-xl italic leading-[1.4] text-headline">
-          {block.text}
+          {renderInline(block.text)}
         </blockquote>
       );
     case "image":
