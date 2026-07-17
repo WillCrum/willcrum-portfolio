@@ -27,8 +27,9 @@ function ClickableImage({
   height: number;
   sizes: string;
   /** Renders inside a fixed 1:1 cell (for grid layouts) with the image
-   * letterboxed via object-contain, rather than scaled to its own intrinsic
-   * aspect ratio — so a grid of mixed-orientation photos still lines up. */
+   * cropped to fill via object-cover, rather than scaled to its own
+   * intrinsic aspect ratio — so a grid of mixed-orientation photos still
+   * lines up. */
   square?: boolean;
 }) {
   const { open } = useLightbox();
@@ -40,7 +41,7 @@ function ClickableImage({
         aria-label={`View full size: ${alt}`}
         className="relative block aspect-square w-full cursor-zoom-in overflow-hidden rounded-[2px] bg-card"
       >
-        <Image src={src} alt={alt} fill className="object-contain" sizes={sizes} />
+        <Image src={src} alt={alt} fill className="object-cover" sizes={sizes} />
       </button>
     );
   }
