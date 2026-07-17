@@ -121,6 +121,11 @@ export const archiveProjects: ArchiveProject[] = [
       src: "/images/archive-classmates-hero.webp",
       fit: "cover",
     },
+    pageHero: {
+      alt: "Classmates' onboarding screen, shown in hand next to a laptop and notebook",
+      src: "/images/classmates/01-hero.webp",
+      fit: "cover",
+    },
     cta: {
       label: "Read more",
       href: "/archive/classmates",

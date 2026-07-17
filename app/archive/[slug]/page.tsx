@@ -83,6 +83,7 @@ export default async function ArchiveProjectPage({
             src={pageHero.src}
             alt={pageHero.alt}
             fill
+            quality={90}
             className="object-cover"
             sizes="(max-width: 768px) 100vw, 1164px"
           />

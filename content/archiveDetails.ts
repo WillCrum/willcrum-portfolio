@@ -785,4 +785,143 @@ export const archiveDetails: Record<string, ArchiveDetail> = {
       },
     ],
   },
+  classmates: {
+    slug: "classmates",
+    recognition: [],
+    blocks: [
+      { type: "heading", level: 2, text: "Turning soul-searching into a conversation." },
+      {
+        type: "paragraph",
+        text: "Classmates is a mobile app that guides young professionals through a career switch. The app is designed to do two things for its users: introduce them to alternative jobs they might find appealing, and connect them to learning resources and people that will help them begin their new career.",
+      },
+      {
+        type: "image",
+        src: "/images/classmates/02-stat-graphic.webp",
+        width: 2500,
+        height: 1407,
+        alt: "1 in 2 Americans feel emotionally detached from their career.",
+      },
+      { type: "heading", level: 2, text: "Problem" },
+      {
+        type: "image",
+        src: "/images/classmates/03-low-cost-landscape.webp",
+        width: 2500,
+        height: 2333,
+        alt: "While there are many resources for job-changers, they're either for people who are already qualified for a job, or for people who know what they need to learn to get there. What about everyone else?",
+        caption: "While there are many resources for job-changers, they're either for people who are already qualified for a job, or for people who know what they need to learn to get there. What about everyone else?",
+      },
+      {
+        type: "paragraph",
+        text: "Automation could force up to 800 million people to switch occupations by 2030.[1](https://www.mckinsey.com/~/media/McKinsey/Global%20Themes/Future%20of%20Organizations/What%20the%20future%20of%20work%20will%20mean%20for%20jobs%20skills%20and%20wages/MGI-Jobs-Lost-Jobs-Gained-Report-December-6-2017.ashx) But even before the sea change that the AI Revolution may bring, we're already in the midst of a career-change crisis. More than half of American workers are emotionally detached from their work, with 55% of private sector workers describing their job as “just what they do for a living.”[2](http://www.pewsocialtrends.org/2016/10/06/3-how-americans-view-their-jobs/) In a country that prides itself on the belief that anyone with the right work ethic can do and become anything they want, why is worker dissatisfaction so high?",
+      },
+      {
+        type: "paragraph",
+        text: "Society pressure kids to specialize and succeed as early as possible. But when they get to the workforce, many are disappointed with the path they’re on. And Millennials — the largest and fastest-growing generation in the US workforce — are more likely to demand a sense of purpose from their work than previous generations. So if half of the 56 million millennials working today are dissatisfied…that’s a potential market of 28 million people.[3](https://www.cbsnews.com/news/why-so-many-americans-hate-their-jobs/)",
+      },
+      {
+        type: "paragraph",
+        text: "For those who want a change, the real question is: *how do I start?* Especially if they’re financially dependent on their current job. There are many inexpensive resources for both job-seekers and knowledge-seekers — but there’s a big gap between them. And none of these low-cost resources leverage the power of the group, or peer learning — one of the biggest selling points of in-person classes. So, ignoring the idea of ‘group job-seeking’ as nonsensical, I focused on group learning that segues to the job hunt and developed Classmates, Your guide to the wild world of online education.",
+      },
+      {
+        type: "video",
+        provider: "vimeo",
+        id: "272838565",
+      },
+      { type: "heading", level: 2, text: "Solution" },
+      {
+        type: "paragraph",
+        text: "Classmates helps users identify jobs they might be interested in, and discover the learning resources required to build skills associated with those jobs. And Classmates augments the existing ecosystem of online courses with its ‘Classrooms,’ where smaller groups of new learners can connect and share tips and resources.",
+      },
+      {
+        type: "paragraph",
+        text: "In an informal survey of 19 young professionals, 84% cited a preference for in-person education. They said it was because they found it easier to learn and stay motivated as part of a group. But two said they preferred online. Both had taken classes to begin a career path adjustment, and preferred online because of the flexibility it afforded — they could learn on their own schedule. What Classmates does is combine the flexibility of online with the community of in-person.",
+      },
+      {
+        type: "video",
+        provider: "vimeo",
+        id: "273556139",
+      },
+      {
+        type: "paragraph",
+        text: "Classmates is free for users, and makes money through: partnerships with paid education platforms that give us a “finder’s fee” for students, and targeted ads in our classrooms. This revenue will help us keep growing and serve our bigger agenda: to prepare workers for the necessity of career transition that automation may bring.",
+      },
+      {
+        type: "paragraph",
+        text: "The jobs of the future will rely on critical thinking, creative thinking, and emotional intuition — so Classmates recommends careers that use these skills. And while it’s impossible to predict what new jobs may emerge as the economy transforms, there are service-oriented vocations that we believe communities will always need.",
+      },
+      {
+        type: "image",
+        src: "/images/classmates/04-screen-array.webp",
+        width: 2500,
+        height: 1052,
+        alt: "Classmates' chat-based onboarding, job/skill/course recommendations, and classroom screens",
+      },
+      { type: "heading", level: 2, text: "Process" },
+      {
+        type: "paragraph",
+        text: "I began by using a post-it intensive technique called “scenario mapping” to sketch out how my two user personas — the “old dog” and “young pup” — might interact with a piece of software designed to help them find a new job. By calling out the questions that might arise for a user at each stage, I was able to quickly create an extensive list of potential features for my final design proposal.",
+      },
+      {
+        type: "image",
+        src: "/images/classmates/05-scenario-map.webp",
+        width: 2500,
+        height: 1875,
+        alt: "One of my second-phase scenario maps. Pink denotes a user interaction, green represents a potential issue or question that might arise at this juncture, and blue post-its are possible features or solutions.",
+        caption: "One of my second-phase scenario maps. Pink denotes a user interaction, green represents a potential issue or question that might arise at this juncture, and blue post-its are possible features or solutions.",
+      },
+      {
+        type: "paragraph",
+        text: "Next, I created an online survey to interrogate my assumptions about user behavior and learn more about their experience with adult learning classes. It received 19 responses, with a median age of 26 — the sweet spot for my target demographic. As expected, almost all of them had changed jobs in the past 2 years — 84% — and 26% had done so in the past 6 months. The most common reasons for a job change were the pursuit of better opportunities for learning, growth, and fulfillment. All this confirmed what I had already suspected, and which my secondary research had suggested: millennials change work frequently because they put their own goals and values before the plans of any one company.",
+      },
+      {
+        type: "imageGrid",
+        columns: 3,
+        images: [
+          { src: "/images/classmates/g1-01-survey-overview.webp", width: 1920, height: 1080, alt: "Survey overview: an online survey format, 19 respondents, median age 26, across a range of occupations" },
+          { src: "/images/classmates/g1-02-key-findings.webp", width: 1920, height: 1080, alt: "Key findings: millennials change jobs often, seeking fulfillment and growth, with a strong preference for in-person classes" },
+          { src: "/images/classmates/g1-03-questions-opportunities.webp", width: 1920, height: 1080, alt: "Open questions and opportunities raised by the survey findings" },
+        ],
+      },
+      {
+        type: "paragraph",
+        text: "Respondents’ relationships with adult learning classes were more complex. Many of those who had taken classes had done so in order to prepare for a career move, but a handful had also taken classes simply for the pleasure of a creative outlet. (It remains unclear if those represent different needs and user types, or different expressions of the same professional dissatisfaction.) 84% of respondents said that they would prefer to take a class that met in person, explaining that they were motivated to learn and retained information better when surrounded by peers and interacting with an instructor. But only 58% of respondents had actually taken a course since college — a discrepancy that suggests Classmates may need to overcome a negative perception bias around online courses in order to be successful. Interestingly, two respondents who had taken in-person courses to begin a career change actually said that they would have preferred if those classes had been online, because of the greater flexibility an online course affords.",
+      },
+      {
+        type: "paragraph",
+        text: "All these insights were useful when developing the app’s final architecture, but especially when crafting the tone and flow of the introductory CUI chat. When creating a system to sort users into areas of interest, it’s helpful to remain mindful of the varying goals and biases that your users may be bringing to the table.",
+      },
+      {
+        type: "imageGrid",
+        columns: 3,
+        images: [
+          { src: "/images/classmates/g2-01-young-pup-persona.webp", width: 2500, height: 2861, alt: "The “Young Pup” persona: Suzy Lawyer, Jr., a 28-year-old go-getter based in Washington, D.C." },
+          { src: "/images/classmates/g2-02-ideation-post-its.webp", width: 2500, height: 3333, alt: "Early ideation post-its, including a sketch of the app's onboarding flow" },
+          { src: "/images/classmates/g2-03-user-journey.webp", width: 2483, height: 2490, alt: "A hand-drawn user journey mapping the app's greeting/sorting, search/listings, recommended skills, and profile/résumé screens" },
+          { src: "/images/classmates/g2-04-jobby-sketch-1.webp", width: 2500, height: 1962, alt: "Early wireframe sketches for Jobby (Classmates' working title), covering onboarding and job/skill recommendations" },
+          { src: "/images/classmates/g2-05-jobby-sketch-2.webp", width: 2500, height: 1967, alt: "Early wireframe sketches for Jobby's classroom/forum screens" },
+          { src: "/images/classmates/g2-06-greeting-wireframes.webp", width: 2500, height: 1931, alt: "Wireframe alternatives for the app's greeting and sorting screen" },
+          { src: "/images/classmates/g2-07-profile-wireframes.webp", width: 2500, height: 1804, alt: "Wireframes for the app's profile builder flow" },
+          { src: "/images/classmates/g2-08-search-wireframes.webp", width: 2500, height: 1895, alt: "Wireframes for the app's job search and listing screens" },
+          { src: "/images/classmates/g2-09-training-wireframes.webp", width: 2480, height: 2409, alt: "Wireframes for the app's skill-training recommendation screens" },
+          { src: "/images/classmates/g2-10-chatbot-mockups.webp", width: 2052, height: 1552, alt: "Higher-fidelity mockups of the app's conversational onboarding chatbot" },
+          { src: "/images/classmates/g2-11-jobby-wireframes-sketch.webp", width: 2500, height: 1563, alt: "A Sketch file showing the Jobby prototype's onboarding and job-search screens" },
+          { src: "/images/classmates/g2-12-classmates-wireframes-overview.webp", width: 2500, height: 1563, alt: "A Sketch file showing the full set of Classmates wireframes, from onboarding through the classroom feature" },
+        ],
+      },
+      {
+        type: "image",
+        src: "/images/classmates/13-paper-prototype.webp",
+        width: 2500,
+        height: 1875,
+        alt: "Paper prototyping is a quick and easy way to get user feedback without burning hours in Sketch and Flinto.",
+        caption: "Paper prototyping is a quick and easy way to get user feedback without burning hours in Sketch and Flinto.",
+      },
+    ],
+    closingBlocks: [
+      {
+        type: "paragraph",
+        text: "Classmates was developed as part of my master’s thesis, *Me, Myself & A.I.: How I Learned to Love the Machine That Took my Job*. [You can watch my thesis video, read my thesis book, and see my other thesis projects here.](/archive/thesis)",
+      },
+    ],
+  },
 };
