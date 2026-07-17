@@ -3,6 +3,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Container } from "@/components/ui/Container";
 import { Tag } from "@/components/ui/Tag";
+import { Divider } from "@/components/ui/Divider";
 import { ProjectCard } from "@/components/ProjectCard";
 import { ArchiveBlocks } from "@/components/ArchiveBlocks";
 import { Award, Newspaper } from "@/components/icons";
@@ -51,10 +52,12 @@ function RecognitionItem({ item }: { item: ArchiveRecognition }) {
 }
 
 /**
- * An archived project's own page. Projects with a `content/archiveDetails.ts`
- * entry get their full ported long-form content; others fall back to a
- * minimal shell (headline, hero image, tags, intro body) until their content
- * is ported in a follow-up pass.
+ * An archived project's own page. Every project gets the same intro shell —
+ * headline, hero image, body copy as a subhead, tags, then a divider —
+ * regardless of whether its long-form content has been ported yet. Projects
+ * with a `content/archiveDetails.ts` entry get their full scraped content
+ * below that divider; others simply have nothing further there until their
+ * content is ported in a follow-up pass.
  */
 export default async function ArchiveProjectPage({
   params,
@@ -69,10 +72,24 @@ export default async function ArchiveProjectPage({
 
   return (
     <Container className="flex flex-col gap-8 pt-3">
-      <div className="flex flex-col gap-4">
-        <h1 className="text-[32px] font-semibold leading-[1.05] tracking-[-0.32px] text-headline">
-          {project.headline}
-        </h1>
+      <h1 className="max-w-[783px] text-[32px] font-semibold leading-[1.05] tracking-[-0.32px] text-headline">
+        {project.headline}
+      </h1>
+
+      {project.hero.src && (
+        <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[2px] bg-card">
+          <Image
+            src={project.hero.src}
+            alt={project.hero.alt}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 1164px"
+          />
+        </div>
+      )}
+
+      <div className="flex max-w-[783px] flex-col gap-4">
+        <p className="text-lg leading-[1.4] text-body">{renderInline(project.body)}</p>
         <ul className="flex flex-wrap gap-2">
           {project.tags.map((tag) => (
             <li key={tag}>
@@ -91,7 +108,9 @@ export default async function ArchiveProjectPage({
         )}
       </div>
 
-      {detail ? (
+      <Divider />
+
+      {detail && (
         <>
           <ArchiveBlocks blocks={detail.blocks} />
           {detail.subProjects && detail.subProjects.length > 0 && (
@@ -109,23 +128,6 @@ export default async function ArchiveProjectPage({
               )}
             </p>
           )}
-        </>
-      ) : (
-        <>
-          {project.hero.src && (
-            <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[2px] bg-card">
-              <Image
-                src={project.hero.src}
-                alt={project.hero.alt}
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, 1164px"
-              />
-            </div>
-          )}
-          <p className="max-w-[783px] text-lg leading-[1.4] text-body">
-            {renderInline(project.body)}
-          </p>
         </>
       )}
     </Container>
