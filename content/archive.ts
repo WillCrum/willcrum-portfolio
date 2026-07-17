@@ -146,6 +146,11 @@ export const archiveProjects: ArchiveProject[] = [
       src: "/images/archive-staygo-hero.webp",
       fit: "cover",
     },
+    pageHero: {
+      alt: "The StayGo wordmark, superimposed over an open highway",
+      src: "/images/staygo/01-hero.webp",
+      fit: "cover",
+    },
     cta: {
       label: "Read more",
       href: "/archive/staygo",
