@@ -31,6 +31,7 @@ export const archiveProjects: ArchiveProject[] = [
       src: "/images/archive-thesis-hero.png",
       fit: "cover",
     },
+    qualifier: "This work was developed in 2017–2018.",
     cta: {
       label: "Read more",
       href: "/archive/thesis",
@@ -51,6 +52,7 @@ export const archiveProjects: ArchiveProject[] = [
       src: "/images/archive-babi-hero.webp",
       fit: "cover",
     },
+    qualifier: "This project was developed in 2017–2018 as part of my master’s thesis. [Read more here.](/archive/thesis)",
     cta: {
       label: "Read more",
       href: "/archive/babi",
@@ -76,6 +78,7 @@ export const archiveProjects: ArchiveProject[] = [
       src: "/images/human-resourcing-dept/page-hero-ellen.webp",
       fit: "cover",
     },
+    qualifier: "This project was developed in 2017–2018 as part of my master’s thesis. [Read more here.](/archive/thesis)",
     cta: {
       label: "Read more",
       href: "/archive/human-resourcing-dept",
@@ -101,6 +104,7 @@ export const archiveProjects: ArchiveProject[] = [
       src: "/images/jade/page-hero.webp",
       fit: "cover",
     },
+    qualifier: "This project was developed in 2017–2018 as part of my master’s thesis. [Read more here.](/archive/thesis)",
     cta: {
       label: "Read more",
       href: "/archive/jade",
@@ -126,6 +130,7 @@ export const archiveProjects: ArchiveProject[] = [
       src: "/images/classmates/01-hero.webp",
       fit: "cover",
     },
+    qualifier: "This project was developed in 2017–2018 as part of my master’s thesis. [Read more here.](/archive/thesis)",
     cta: {
       label: "Read more",
       href: "/archive/classmates",
@@ -151,6 +156,7 @@ export const archiveProjects: ArchiveProject[] = [
       src: "/images/staygo/01-hero.webp",
       fit: "cover",
     },
+    qualifier: "This project was developed in 2017–2018 as part of my master’s thesis. [Read more here.](/archive/thesis)",
     cta: {
       label: "Read more",
       href: "/archive/staygo",
@@ -178,6 +184,7 @@ export const archiveProjects: ArchiveProject[] = [
       width: 2500,
       height: 1406,
     },
+    qualifier: "This project was developed in 2017–2018 as part of my master’s thesis. [Read more here.](/archive/thesis)",
     cta: {
       label: "Read more",
       href: "/archive/water-token",
@@ -205,6 +212,7 @@ export const archiveProjects: ArchiveProject[] = [
       width: 2500,
       height: 1406,
     },
+    qualifier: "This project was developed in 2017–2018 as part of my master’s thesis. [Read more here.](/archive/thesis)",
     cta: {
       label: "Read more",
       href: "/archive/xharo",
@@ -232,6 +240,7 @@ export const archiveProjects: ArchiveProject[] = [
       width: 2397,
       height: 1348,
     },
+    qualifier: "This project was developed in 2017 with Alexia Cohen and Lassor Feasley as part of the Product, Brand Experience course led by Hlynur Atlason.",
     cta: {
       label: "Read more",
       href: "/archive/move",
@@ -252,6 +261,7 @@ export const archiveProjects: ArchiveProject[] = [
       src: "/images/archive-she-served-hero.png",
       fit: "cover",
     },
+    qualifier: "This project was developed in 2017 with Alexia Cohen, Kevin Cook, Jiani Lin, Antriksh Nangia, and Teng Yu as part of the Design Research and Integration course led by Lawrence Abrahamson and in partnership with the New York Veterans Affairs Office.",
     cta: {
       label: "Read more",
       href: "/archive/she-served",

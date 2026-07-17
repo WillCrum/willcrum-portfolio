@@ -86,6 +86,11 @@ export type Project = {
    * back to `hero` (the card image) when absent, for projects where the
    * same image works fine in both places. */
   pageHero?: ProjectHero;
+  /** Small italicized attribution line shown on the archive detail page,
+   * below the subhead and above the tags (e.g. dates, collaborators, the
+   * course it was made for). Inline markdown — supports *italic* and
+   * [text](href). Archive-only; unused on the Work page's cards. */
+  qualifier?: string;
   cta: CTA;
 };
 

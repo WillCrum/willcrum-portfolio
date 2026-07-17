@@ -102,6 +102,11 @@ export default async function ArchiveProjectPage({
 
       <div className="flex max-w-[783px] flex-col gap-4">
         <p className="text-lg leading-[1.4] text-body">{renderInline(project.body)}</p>
+        {project.qualifier && (
+          <p className="text-lg italic leading-[1.4] text-body/50">
+            {renderInline(project.qualifier)}
+          </p>
+        )}
         <ul className="flex flex-wrap gap-2">
           {project.tags.map((tag) => (
             <li key={tag}>
