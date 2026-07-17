@@ -54,6 +54,13 @@ export type ProjectHero = {
    * be cropped — the live card background shows through its own transparent
    * margins, so it's correct in any theme with one asset. */
   fit?: "cover" | "contain";
+  /** Real pixel dimensions of `src` — when set, the archive detail page's
+   * intro hero renders at this native aspect ratio (no fixed frame, no
+   * cropping) instead of the usual fixed 16:10 cover box. Use this when the
+   * image's own composition (e.g. a logo positioned off-center) can't
+   * tolerate a crop. */
+  width?: number;
+  height?: number;
   /** Bespoke multi-layer composition (rotated cards + shadows), rendered as
    * live CSS directly over the card's own background — used instead of
    * src/fit for heroes whose visual is a floating-card collage rather than

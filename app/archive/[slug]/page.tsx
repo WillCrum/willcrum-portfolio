@@ -77,7 +77,17 @@ export default async function ArchiveProjectPage({
         {project.headline}
       </h1>
 
-      {pageHero.src && (
+      {pageHero.src && (pageHero.width && pageHero.height ? (
+        <Image
+          src={pageHero.src}
+          alt={pageHero.alt}
+          width={pageHero.width}
+          height={pageHero.height}
+          quality={90}
+          className="h-auto w-full rounded-[2px] bg-card"
+          sizes="(max-width: 768px) 100vw, 1164px"
+        />
+      ) : (
         <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[2px] bg-card">
           <Image
             src={pageHero.src}
@@ -88,7 +98,7 @@ export default async function ArchiveProjectPage({
             sizes="(max-width: 768px) 100vw, 1164px"
           />
         </div>
-      )}
+      ))}
 
       <div className="flex max-w-[783px] flex-col gap-4">
         <p className="text-lg leading-[1.4] text-body">{renderInline(project.body)}</p>

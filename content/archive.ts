@@ -175,6 +175,8 @@ export const archiveProjects: ArchiveProject[] = [
       alt: "A 3D-rendered Water Token coin, embossed with The Water Bank's wave logo",
       src: "/images/water-token/01-hero.webp",
       fit: "cover",
+      width: 2500,
+      height: 1406,
     },
     cta: {
       label: "Read more",
