@@ -37,7 +37,7 @@ function ClickableImage({
     return (
       <button
         type="button"
-        onClick={() => open({ src, alt })}
+        onClick={() => open(src)}
         aria-label={`View full size: ${alt}`}
         className="relative block aspect-square w-full cursor-zoom-in overflow-hidden rounded-[2px] bg-card"
       >
@@ -48,7 +48,7 @@ function ClickableImage({
   return (
     <button
       type="button"
-      onClick={() => open({ src, alt })}
+      onClick={() => open(src)}
       aria-label={`View full size: ${alt}`}
       className="block w-full cursor-zoom-in"
     >
@@ -175,9 +175,24 @@ function Block({ block }: { block: ArchiveBlock }) {
   }
 }
 
+// Flat, page-order list of every image across all blocks — lets the
+// lightbox step through Left/Right regardless of which block (single
+// image, pair, or grid) an image came from.
+function collectImages(blocks: ArchiveBlock[]): { src: string; alt: string }[] {
+  const images: { src: string; alt: string }[] = [];
+  for (const block of blocks) {
+    if (block.type === "image") {
+      images.push({ src: block.src, alt: block.alt });
+    } else if (block.type === "imagePair" || block.type === "imageGrid") {
+      for (const img of block.images) images.push({ src: img.src, alt: img.alt });
+    }
+  }
+  return images;
+}
+
 export function ArchiveBlocks({ blocks }: { blocks: ArchiveBlock[] }) {
   return (
-    <LightboxProvider>
+    <LightboxProvider images={collectImages(blocks)}>
       <div className="flex flex-col gap-8">
         {blocks.map((block, i) => (
           <Block key={i} block={block} />
