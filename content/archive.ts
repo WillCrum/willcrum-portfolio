@@ -67,8 +67,8 @@ export const archiveProjects: ArchiveProject[] = [
     body: "It’s 2088, and your old job has been automated. But an AI named PETAR is here to sort you into a future job based on the human attributes we still need: critical thinking, creative thinking, and emotional intuition. This immersive performance tested people’s reactions to a sudden loss of agency.",
     tags: ["writing", "speculative design", "visual design", "experiential design", "service design", "AI/ML"],
     hero: {
-      alt: "A performer in an immersive Human Resourcing Dept. staffing interview",
-      src: "/images/archive-human-resourcing-dept-hero.webp",
+      alt: "Ellen prepares for another day spent helping displaced workers in 2088",
+      src: "/images/human-resourcing-dept/hero.webp",
       fit: "cover",
     },
     cta: {

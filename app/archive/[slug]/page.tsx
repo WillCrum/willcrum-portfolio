@@ -120,7 +120,12 @@ export default async function ArchiveProjectPage({
               ))}
             </div>
           )}
-          {detail.closingBlocks && <ArchiveBlocks blocks={detail.closingBlocks} />}
+          {detail.closingBlocks && (
+            <>
+              <Divider />
+              <ArchiveBlocks blocks={detail.closingBlocks} />
+            </>
+          )}
           {detail.sourceLink && (
             <p className="max-w-[783px] text-lg leading-[1.4] text-body">
               {renderInline(
