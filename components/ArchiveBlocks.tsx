@@ -41,7 +41,7 @@ function ClickableImage({
         aria-label={`View full size: ${alt}`}
         className="relative block aspect-square w-full cursor-zoom-in overflow-hidden rounded-[2px] bg-card"
       >
-        <Image src={src} alt={alt} fill className="object-cover" sizes={sizes} />
+        <Image src={src} alt={alt} fill quality={90} className="object-cover" sizes={sizes} />
       </button>
     );
   }
@@ -57,6 +57,7 @@ function ClickableImage({
         alt={alt}
         width={width}
         height={height}
+        quality={90}
         className="h-auto w-full rounded-[2px] bg-card"
         sizes={sizes}
       />

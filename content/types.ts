@@ -75,6 +75,10 @@ export type Project = {
   body: string;
   tags: string[];
   hero: ProjectHero;
+  /** Hero shown on the project's own /archive/[slug] page intro — falls
+   * back to `hero` (the card image) when absent, for projects where the
+   * same image works fine in both places. */
+  pageHero?: ProjectHero;
   cta: CTA;
 };
 

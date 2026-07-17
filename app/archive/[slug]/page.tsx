@@ -69,6 +69,7 @@ export default async function ArchiveProjectPage({
   if (!project) notFound();
 
   const detail = archiveDetails[slug];
+  const pageHero = project.pageHero ?? project.hero;
 
   return (
     <Container className="flex flex-col gap-8 pt-3">
@@ -76,11 +77,11 @@ export default async function ArchiveProjectPage({
         {project.headline}
       </h1>
 
-      {project.hero.src && (
+      {pageHero.src && (
         <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[2px] bg-card">
           <Image
-            src={project.hero.src}
-            alt={project.hero.alt}
+            src={pageHero.src}
+            alt={pageHero.alt}
             fill
             className="object-cover"
             sizes="(max-width: 768px) 100vw, 1164px"
