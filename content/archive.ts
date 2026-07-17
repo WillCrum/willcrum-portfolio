@@ -10,11 +10,10 @@ export const archiveIntro = {
 };
 
 // NOTE: hero photos + logos are pulled from the Figma file's Library page —
-// "Logos/Desktop/SVA+MM&AI" and "Logos/Desktop/SVA+VA", both composites of
-// the SVA NYC seal + a divider + the project's own wordmark, flattened into
-// one file each since ProjectCard's logo slot expects a single image. Move's
-// logo is a plain text placeholder (no Figma asset exists yet for "SVA
-// Products of Design") — swap in a real lockup once one's available.
+// "Logos/Desktop/SVA+MM&AI", "Logos/Desktop/SVA+VA", and
+// "Logos/Desktop/SVA+PoD" (node 380:1869) — each a composite of the SVA NYC
+// seal + the project's own wordmark, flattened into one file since
+// ProjectCard's logo slot expects a single image.
 export const archiveProjects: ArchiveProject[] = [
   {
     slug: "thesis",
@@ -181,9 +180,9 @@ export const archiveProjects: ArchiveProject[] = [
     slug: "move",
     category: "Other",
     company: "SVA Products of Design",
-    logo: "/images/archive-logo-move-placeholder.svg",
-    logoAlt: "SVA Products of Design",
-    logoAspect: 230 / 38.2727,
+    logo: "/images/archive-logo-move.svg",
+    logoAlt: "SVA NYC | Products of Design",
+    logoAspect: 140.117 / 32,
     headline: "MOVE: Customizable signage to amplify grassroots voices",
     body: "*MOVE* empowers organizers and activists to make their message heard by offering customizable flat-pack signage that comes to you.",
     tags: ["service design", "experiential design", "visual design"],
