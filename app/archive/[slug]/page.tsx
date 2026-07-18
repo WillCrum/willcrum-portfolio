@@ -132,14 +132,11 @@ export default async function ArchiveProjectPage({
         <>
           <ArchiveBlocks blocks={detail.blocks} />
           {detail.subProjects && detail.subProjects.length > 0 && (
-            <>
-              <div className="flex flex-col gap-10">
-                {detail.subProjects.map((sub) => (
-                  <ProjectCard key={sub.slug} project={sub} />
-                ))}
-              </div>
-              <ArchiveNavButtons />
-            </>
+            <div className="flex flex-col gap-10">
+              {detail.subProjects.map((sub) => (
+                <ProjectCard key={sub.slug} project={sub} />
+              ))}
+            </div>
           )}
           {detail.closingBlocks && (
             <>
