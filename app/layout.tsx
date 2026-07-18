@@ -70,7 +70,12 @@ export default function RootLayout({
           <Container className="my-12 md:my-16">
             <Divider />
           </Container>
-          <main className="flex-1">{children}</main>
+          {/* flex flex-col (not just flex-1) so a page that itself wants
+              to fill this space can opt in with its own flex-1 — a plain
+              percentage height (h-full) on a page's root element doesn't
+              reliably resolve here, since main's own height only comes
+              from flex-grow against body's min-h-full, not a hard height. */}
+          <main className="flex flex-1 flex-col">{children}</main>
           <Footer />
         </ThemeProvider>
       </body>
