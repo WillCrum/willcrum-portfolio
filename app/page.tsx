@@ -7,7 +7,7 @@ import { PageIntro } from "@/components/PageIntro";
 import { ProjectCard } from "@/components/ProjectCard";
 import { Button } from "@/components/ui/Button";
 import { BackToTopButton } from "@/components/ui/BackToTopButton";
-import { RotateCcw } from "@/components/icons";
+import { RotateCcw, ArrowDown } from "@/components/icons";
 import { workIntro, projects } from "@/content/projects";
 import { useTagFilter } from "@/lib/useTagFilter";
 
@@ -69,6 +69,10 @@ export default function WorkPage() {
             <ProjectCard key={project.slug} project={project} />
           ))
         )}
+        <Button href="/archive" variant="secondary" className="self-center">
+          See project archive
+          <ArrowDown className="size-4" />
+        </Button>
       </Container>
       <BackToTopButton />
     </>

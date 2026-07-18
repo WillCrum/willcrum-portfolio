@@ -139,6 +139,7 @@ export const archiveProjects: ArchiveProject[] = [
   {
     slug: "staygo",
     category: "Thesis",
+    hideFromIndex: true,
     company: "Me, Myself & A.I.",
     logo: "/images/archive-logo-thesis.svg",
     logoAlt: "SVA NYC | MM&AI",
@@ -193,6 +194,7 @@ export const archiveProjects: ArchiveProject[] = [
   {
     slug: "xharo",
     category: "Thesis",
+    hideFromIndex: true,
     company: "Me, Myself & A.I.",
     logo: "/images/archive-logo-thesis.svg",
     logoAlt: "SVA NYC | MM&AI",

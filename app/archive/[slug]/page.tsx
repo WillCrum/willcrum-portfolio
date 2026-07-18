@@ -6,6 +6,7 @@ import { Tag } from "@/components/ui/Tag";
 import { Divider } from "@/components/ui/Divider";
 import { ProjectCard } from "@/components/ProjectCard";
 import { ArchiveBlocks } from "@/components/ArchiveBlocks";
+import { ArchiveNavButtons } from "@/components/ArchiveNavButtons";
 import { Award, Newspaper } from "@/components/icons";
 import { archiveProjects } from "@/content/archive";
 import { archiveDetails } from "@/content/archiveDetails";
@@ -131,11 +132,14 @@ export default async function ArchiveProjectPage({
         <>
           <ArchiveBlocks blocks={detail.blocks} />
           {detail.subProjects && detail.subProjects.length > 0 && (
-            <div className="flex flex-col gap-10">
-              {detail.subProjects.map((sub) => (
-                <ProjectCard key={sub.slug} project={sub} />
-              ))}
-            </div>
+            <>
+              <div className="flex flex-col gap-10">
+                {detail.subProjects.map((sub) => (
+                  <ProjectCard key={sub.slug} project={sub} />
+                ))}
+              </div>
+              <ArchiveNavButtons />
+            </>
           )}
           {detail.closingBlocks && (
             <>
@@ -152,6 +156,8 @@ export default async function ArchiveProjectPage({
           )}
         </>
       )}
+
+      <ArchiveNavButtons />
     </Container>
   );
 }

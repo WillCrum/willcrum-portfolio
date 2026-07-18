@@ -26,6 +26,24 @@ export function ArrowUp(props: IconProps) {
   );
 }
 
+export function ArrowDown(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" {...stroke} {...props}>
+      <path d="M12 5v14" />
+      <path d="m19 12-7 7-7-7" />
+    </svg>
+  );
+}
+
+export function Undo2(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" {...stroke} {...props}>
+      <path d="M9 14 4 9l5-5" />
+      <path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11" />
+    </svg>
+  );
+}
+
 export function Copy(props: IconProps) {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true" {...stroke} {...props}>

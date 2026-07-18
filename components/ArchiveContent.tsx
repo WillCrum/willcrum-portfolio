@@ -6,13 +6,18 @@ import { PageIntro } from "@/components/PageIntro";
 import { ProjectCard } from "@/components/ProjectCard";
 import { Button } from "@/components/ui/Button";
 import { BackToTopButton } from "@/components/ui/BackToTopButton";
-import { RotateCcw } from "@/components/icons";
+import { RotateCcw, Undo2 } from "@/components/icons";
 import { archiveIntro, archiveProjects } from "@/content/archive";
 import { useTagFilter } from "@/lib/useTagFilter";
 
+// Minor thesis sub-projects (hideFromIndex) still get their own page and
+// still show up on the thesis overview's sub-project list — both read
+// archiveProjects directly — but don't clutter this top-level index.
+const indexProjects = archiveProjects.filter((p) => !p.hideFromIndex);
+
 export function ArchiveContent() {
   const { selectedTags, toggleTag, resetTags, visibleItems: visibleProjects } =
-    useTagFilter(archiveProjects);
+    useTagFilter(indexProjects);
 
   // Category eyebrow label only renders once per group, right before that
   // group's first card — in data order (not alphabetized), so new
@@ -60,6 +65,10 @@ export function ArchiveContent() {
             );
           })
         )}
+        <Button href="/" variant="secondary" className="self-center">
+          Work
+          <Undo2 className="size-4" />
+        </Button>
       </Container>
       <BackToTopButton />
     </>

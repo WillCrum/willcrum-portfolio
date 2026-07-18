@@ -38,11 +38,7 @@ export const archiveDetails: Record<string, ArchiveDetail> = {
     blocks: [
       {
         type: "paragraph",
-        text: "The She Served Project is a campaign and storytelling initiative aimed at increasing visibility and understanding of women veterans in the United States.",
-      },
-      {
-        type: "paragraph",
-        text: "It was researched and developed in partnership with the NY Veterans Affairs office under the guidance of IDEO’s Lawrence Abrahamson as part of the Design Research and Integration class at Products of Design in 2017. I worked alongside classmates Alexia Cohen, Kevin Cook, Jiani Lin, Antriksh Nangia, and Teng Yu.",
+        text: "The She Served Project was a 15-week user research and concept development project aimed at increasing visibility and understanding of US women military veterans, culminating in a proposed campaign and storytelling initiative. Read on to see what we learned, tested, and developed during the course of our research and development.",
       },
       {
         type: "image",

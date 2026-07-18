@@ -97,7 +97,15 @@ export type Project = {
 /** An older/archived project, grouped under a category eyebrow label (e.g.
  * "Thesis", "Other") on the Archive page — kept separate from `Project`
  * rather than added there, since grouping is Archive-only. */
-export type ArchiveProject = Project & { category: string };
+export type ArchiveProject = Project & {
+  category: string;
+  /** Omits this project from the top-level /archive index list — it still
+   * gets its own /archive/[slug] page and still appears in the thesis
+   * overview's sub-project list, since both of those read `archiveProjects`
+   * directly rather than the index page's filtered view. Used for minor
+   * sub-projects not worth surfacing on their own. */
+  hideFromIndex?: boolean;
+};
 
 /** An award, press mention, or similar credit — shown near an archive
  * project's tags rather than buried at the bottom, unlike the source page. */
