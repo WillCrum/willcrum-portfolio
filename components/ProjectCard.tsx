@@ -144,15 +144,21 @@ export function ProjectCard({ project }: { project: Project }) {
             </ul>
           </div>
 
-          <Button
-            href={cta.href}
-            external={cta.external}
-            aria-label={`${cta.label}: ${headline}`}
-            className="self-start"
-          >
-            {cta.label}
-            <ArrowRight className="size-5" />
-          </Button>
+          {/* Desktop only — on mobile this same CTA floats over the hero
+              image instead (see the hero column below), since the content
+              column stacks above the hero there and a trailing button at
+              the bottom of that stack reads as disconnected from the card
+              it belongs to. */}
+          <div className="hidden self-start md:block">
+            <Button
+              href={cta.href}
+              external={cta.external}
+              aria-label={`${cta.label}: ${headline}`}
+            >
+              {cta.label}
+              <ArrowRight className="size-5" />
+            </Button>
+          </div>
         </div>
 
         {/* Hero column. Three modes:
@@ -229,6 +235,20 @@ export function ProjectCard({ project }: { project: Project }) {
               ) : null}
             </>
           )}
+
+          {/* Mobile only — floats over the hero image instead of trailing
+              below the content column (see the desktop Button above).
+              bottom-6/left-6 match this card's own p-6 content padding. */}
+          <div className="absolute bottom-6 left-6 md:hidden">
+            <Button
+              href={cta.href}
+              external={cta.external}
+              aria-label={`${cta.label}: ${headline}`}
+            >
+              {cta.label}
+              <ArrowRight className="size-5" />
+            </Button>
+          </div>
         </div>
       </div>
     </article>
