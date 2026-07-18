@@ -50,7 +50,7 @@ export function PageIntro({
         ))}
         {selectedTags.size > 0 && (
           <li>
-            <IconButton onClick={onReset} aria-label="Reset filters" className="size-8">
+            <IconButton onClick={onReset} aria-label="Reset filters" className="size-7">
               <RotateCcw className="size-4" />
             </IconButton>
           </li>
