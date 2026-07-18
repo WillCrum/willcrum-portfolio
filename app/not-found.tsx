@@ -15,16 +15,17 @@ export default function NotFound() {
     // height track whatever's left of the viewport, so the footer stays
     // pinned to the bottom instead of trailing after a fixed-height box.
     //
-    // pt-12/pb-8 (not a symmetric py) is deliberate, not a typo: the layout
-    // already isn't symmetric above vs. below this page — the header's own
-    // bottom margin (Container `my-12 md:my-16` in app/layout.tsx) is
-    // smaller than the footer's own top margin (Footer.tsx's `mt-16
-    // md:mt-24`). This box's own top/bottom padding is chosen to cancel
-    // that gap exactly, so the box reads as equidistant from both:
-    //   mobile:  48 (header's my-12)  + 48 (pt-12) = 32 (pb-8) + 64 (footer's mt-16)  = 96
-    //   desktop: 64 (header's md:my-16) + 64 (md:pt-16) = 32 (pb-8) + 96 (footer's md:mt-24) = 128
+    // A flat 64px gap on both sides, at both breakpoints, requires
+    // asymmetric top/bottom offsets — the layout isn't symmetric above vs.
+    // below this page: the header's own bottom margin (Container `my-12
+    // md:my-16` in app/layout.tsx) is smaller than the footer's own top
+    // margin (Footer.tsx's `mt-16 md:mt-24`), and at md:+ the footer's
+    // margin (96px) already exceeds the 64px target on its own, so closing
+    // that gap needs a negative margin, not just less padding:
+    //   mobile:  48 (header's my-12)    + 16 (pt-4)     = 64  |  64 (footer's mt-16)   +   0 (mb-0)    = 64
+    //   desktop: 64 (header's md:my-16) +  0 (md:pt-0)  = 64  |  96 (footer's md:mt-24) + -32 (md:-mb-8) = 64
     // If either margin above ever changes, update these to match.
-    <Container className="flex flex-1 flex-col pt-12 pb-8 md:pt-16">
+    <Container className="flex flex-1 flex-col pt-4 md:pt-0 md:-mb-8">
       <div className="flex flex-1 flex-col items-center justify-center gap-3 rounded-xl border border-spacer text-center">
         <p className="text-8xl font-bold leading-none tracking-[-2px] text-focus">
           404
