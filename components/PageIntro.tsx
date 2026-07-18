@@ -40,16 +40,22 @@ export function PageIntro({
       <p className="mt-5 text-lg leading-[1.4] text-body">
         {renderInline(description)}
       </p>
+      {/* Every <li> gets the same explicit h-7 — Tag's own content-based
+          height (~27.6px) and the reset IconButton's size-7 (28px) are
+          close but not pixel-identical, and a flex-wrap row sizes itself
+          to its tallest item, so without this, whichever row the reset
+          button lands in (which changes based on how many tags wrap) grows
+          by that sub-pixel difference and visibly shifts the rows below. */}
       <ul className="mt-5 flex flex-wrap items-center gap-2">
         {tags.map((tag) => (
-          <li key={tag}>
+          <li key={tag} className="flex h-7 items-center">
             <Tag onClick={() => onToggleTag(tag)} selected={selectedTags.has(tag)}>
               {tag}
             </Tag>
           </li>
         ))}
         {selectedTags.size > 0 && (
-          <li>
+          <li className="flex h-7 items-center">
             <IconButton onClick={onReset} aria-label="Reset filters" className="size-7">
               <RotateCcw className="size-4" />
             </IconButton>
