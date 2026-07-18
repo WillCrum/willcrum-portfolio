@@ -27,5 +27,10 @@ export const site = {
       href: "https://www.instagram.com/crumblebrag/",
       kind: "instagram",
     },
+    {
+      label: "blog",
+      href: "https://substack.com/@willcrum",
+      kind: "external",
+    },
   ] satisfies ProfileLink[],
 };

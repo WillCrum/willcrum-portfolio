@@ -63,7 +63,7 @@ export function Footer() {
     <Container as="footer" className="mt-16 md:mt-24">
       <Divider />
       <div className="flex flex-col items-start gap-3 py-4 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-        <ul className="flex items-center gap-1">
+        <ul className="flex flex-col items-start gap-1 sm:flex-row sm:items-center">
           {site.footerLinks.map((link) => {
             if (link.kind === "email") {
               return (
