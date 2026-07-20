@@ -100,7 +100,20 @@ export function PdfReader({
   useEffect(() => {
     if (!isFullscreen) return;
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setIsFullscreen(false);
+      if (e.key === "Escape") {
+        setIsFullscreen(false);
+        return;
+      }
+      // Don't hijack arrow keys while the page-number input has focus —
+      // those should just move the text cursor, per its own handler above.
+      if (isEditingPage) return;
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        goToSpread(spreadIndex - 1);
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        goToSpread(spreadIndex + 1);
+      }
     };
     window.addEventListener("keydown", onKeyDown);
     document.body.style.overflow = "hidden";
@@ -108,7 +121,8 @@ export function PdfReader({
       window.removeEventListener("keydown", onKeyDown);
       document.body.style.overflow = "";
     };
-  }, [isFullscreen]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isFullscreen, isEditingPage, spreadIndex, spreads.length]);
 
   // Per-page width cap for fullscreen — whichever runs out first, viewport
   // width or height, so a tall spread never overflows a short viewport.
