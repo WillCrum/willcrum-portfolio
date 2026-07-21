@@ -46,7 +46,7 @@ export const projects: Project[] = [
     },
     cta: {
       label: "Read more",
-      href: "https://substack.com/home/post/p-199629367",
+      href: "https://willcrum.substack.com/p/building-a-train-time-app-all-on",
       external: true,
     },
   },
