@@ -513,15 +513,7 @@ export const archiveDetails: Record<string, ArchiveDetail> = {
     blocks: [
       {
         type: "paragraph",
-        text: "The work and writing below was developed in 2017–2018 for my master’s thesis at [Products of Design, SVA](https://productsofdesign.sva.edu/).",
-      },
-      {
-        type: "paragraph",
         text: "As artificial intelligence’s capabilities continue to expand, there’s a growing anxiety that the impending AI Revolution may automate more jobs than it creates — triggering a crisis of worker displacement to rival the Dust Bowl and the Great Depression. In response, I developed *Me, Myself and A.I.: How I Learned to Love the Machine That Took my Job*, a thesis of speculative designs that imagine near and distant futures where AI is used to increase individual agency — not diminish it.",
-      },
-      {
-        type: "paragraph",
-        text: "Developed in my second and final year at SVA’s Products of Design MFA program, these proposals and provocations address access to work and other ways to protect human dignity in an automated age. Because while the Hollywood definition of AI may still be light-years away, AI is already taking over the world.",
       },
       {
         type: "video",
@@ -529,6 +521,7 @@ export const archiveDetails: Record<string, ArchiveDetail> = {
         id: "278203025",
         caption: "Watch me present thesis highlights at the SVA Theater (2018)",
       },
+ { type: "heading", level: 2, text: "Thesis book" },
       {
         type: "paragraph",
         text: "The full fruits of a year’s worth of research, sketching, ideation, prototyping, and design are showcased in my thesis book, available for [download here](https://willcrum.itch.io/mmai) — all 194 pages of it. Below are snapshots of a few key projects, plus links to more detailed pages for each project’s origin, development process, and final form.",
@@ -538,6 +531,11 @@ export const archiveDetails: Record<string, ArchiveDetail> = {
         url: "https://pub-1e1e0e4d047847bbad37d4cf58fd6bab.r2.dev/thesis.pdf",
         previewUrl: "https://pub-1e1e0e4d047847bbad37d4cf58fd6bab.r2.dev/thesis-preview.pdf",
         caption: "Click through the full thesis book above.",
+      },
+       { type: "heading", level: 2, text: "Thesis projects" },
+       {
+        type: "paragraph",
+        text: "These proposals and provocations address access to work and other ways to protect human dignity in an automated age. Because while the Hollywood definition of AI may still be light-years away, AI is already taking over the world.",
       },
     ],
     // Derived rather than duplicated — these are the same entries that
@@ -569,6 +567,7 @@ export const archiveDetails: Record<string, ArchiveDetail> = {
         alt: "A billboard in the not-so-distant future",
         caption: "A billboard in the not-so-distant future.",
       },
+         { type: "heading", level: 2, text: "Surveillance tech in a speculative future" },
       { type: "paragraph", text: "The year is 2118." },
       {
         type: "paragraph",
