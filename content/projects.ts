@@ -11,14 +11,22 @@ export const workIntro = {
 
 export const projects: Project[] = [
   {
-    slug: "my-transit-dashboard",
+    slug: "mta-dashboard",
     company: "My /spec",
     logo: "/images/logo-myspec.svg",
     logoAlt: "My /spec",
     logoAspect: 116.059 / 34.5459,
     headline: "Live schedules for any MTA station at a single URL",
-    body: "Built with Claude Code, [My Transit Dashboard](https://mta-transit-dashboard.vercel.app/) is a customizable tracker for MTA train and bus times — so I can check my top stations in a single step.",
+    body: "Built with Claude Code, My Transit Dashboard is a customizable dashboard for MTA train and bus times that makes checking my closest stations a one-step action. [Test it out yourself here!](https://mta-transit-dashboard.vercel.app/)",
     tags: ["agentic dev", "UX", "0->1"],
+    eyebrow: "My Transit Dashboard",
+    pageHero: {
+      src: "/images/projects/mta-dashboard/hero.png",
+      alt: "My Transit Dashboard showing live MTA train and bus arrivals",
+      width: 3572,
+      height: 2258,
+      caption: "Transit Dashboard is a custom web app for the discerning MTA rider.",
+    },
     hero: {
       alt: "My Transit Dashboard showing live MTA train and bus arrivals",
       artwork: {
@@ -46,6 +54,10 @@ export const projects: Project[] = [
     },
     cta: {
       label: "Read more",
+      href: "/projects/mta-dashboard",
+    },
+    caseStudyCta: {
+      label: "Read my process blog",
       href: "https://willcrum.substack.com/p/building-a-train-time-app-all-on",
       external: true,
     },
@@ -57,8 +69,22 @@ export const projects: Project[] = [
     logoAlt: "Pienso",
     logoAspect: 139.034 / 32,
     headline: "Automated deep-learning training that informs and delights",
-    body: "Metamorph is deep learning training interface that tracks model quality in real time so users can spot issues early and take corrective action.",
+    body: "*Metamorph* is a deep learning training interface that tracks model quality in real time so users can spot issues early and take corrective action.",
     tags: ["UI", "UX", "AI/ML", "0->1"],
+    eyebrow: "Pienso Metamorph",
+    pageHero: {
+      src: "/images/projects/metamorph/hero-screenshot.png",
+      alt: "Metamorph deep-learning training interface with live model scoring",
+      width: 3456,
+      height: 1830,
+      caption: "Model-training in progress. Watch the full-length video [here](https://vimeo.com/1057596131/cc527b3b6e?share=copy&fl=sv&fe=ci).",
+      video: {
+        url: "https://pub-1e1e0e4d047847bbad37d4cf58fd6bab.r2.dev/Metamorph%20-%20portfolio%20site%20loop.mp4",
+        poster: "/images/projects/metamorph/hero-poster.jpg",
+        posterWidth: 3840,
+        posterHeight: 1934,
+      },
+    },
     hero: {
       alt: "Metamorph deep-learning training interface with live model scoring",
       artwork: {
@@ -86,6 +112,10 @@ export const projects: Project[] = [
     },
     cta: {
       label: "Read more",
+      href: "/projects/metamorph",
+    },
+    caseStudyCta: {
+      label: "Read case study",
       href: "https://www.figma.com/deck/lTENMJVJm78AlJZdRlTwx6",
       external: true,
     },
@@ -97,8 +127,22 @@ export const projects: Project[] = [
     logoAlt: "Pienso",
     logoAspect: 139.034 / 32,
     headline: "Powerful text search that matches meaning, not just key words",
-    body: "Match is a semantic search tool that gives users close control for finding sentences and documents with similar meaning.",
+    body: "*Match* is a semantic search tool that gives users close control for finding sentences and documents with similar meaning.",
     tags: ["UI", "UX", "AI/ML", "0->1"],
+    eyebrow: "Pienso Match",
+    pageHero: {
+      src: "/images/projects/match/hero-video-still.png",
+      alt: "Match semantic search interface with example phrases and documents",
+      width: 3456,
+      height: 1828,
+      caption: "Watch the full-length video of vector search in use [here](https://vimeo.com/reviews/d8ee2e29-74a4-49b6-be59-a42d31e8ae19/videos/1068456839).",
+      video: {
+        url: "https://pub-1e1e0e4d047847bbad37d4cf58fd6bab.r2.dev/Match%20-%20portfolio%20site%20loop.mp4",
+        poster: "/images/projects/match/hero-poster.jpg",
+        posterWidth: 3840,
+        posterHeight: 1934,
+      },
+    },
     hero: {
       alt: "Match semantic search interface with example phrases and documents",
       artwork: [
@@ -117,6 +161,10 @@ export const projects: Project[] = [
     },
     cta: {
       label: "Read more",
+      href: "/projects/match",
+    },
+    caseStudyCta: {
+      label: "Read case study",
       href: "https://www.figma.com/deck/UkPMbG7q7lNxEU3AJqiVRT",
       external: true,
     },
@@ -130,6 +178,14 @@ export const projects: Project[] = [
     headline: "Rapidly unblocking channel sales to unlock the IDP market",
     body: "We designed a demo tool to show off Pienso’s new invoice extraction capabilities — in under a week.",
     tags: ["UX", "0->1", "design sprint", "leadership"],
+    eyebrow: "Pienso Extraction Demo",
+    pageHero: {
+      src: "/images/projects/extraction-demo/hero-image.png",
+      alt: "Invoice extraction demo tool showing automatically extracted fields",
+      width: 3456,
+      height: 1800,
+      caption: "Watch Pienso's head of sales demo the tool live [here](https://vimeo.com/reviews/d8ee2e29-74a4-49b6-be59-a42d31e8ae19/videos/1068456839).",
+    },
     hero: {
       alt: "Invoice documents with automatically extracted fields",
       artwork: {
@@ -219,12 +275,16 @@ export const projects: Project[] = [
     },
     cta: {
       label: "Read more",
+      href: "/projects/extraction-demo",
+    },
+    caseStudyCta: {
+      label: "Read case study",
       href: "https://www.figma.com/deck/8v5EUyaPZdJariwZpRokns",
       external: true,
     },
   },
   {
-    slug: "platform-reskin", 
+    slug: "reskin",
     company: "Pienso",
     logo: "/images/logo-pienso.svg",
     logoAlt: "Pienso",
@@ -232,6 +292,14 @@ export const projects: Project[] = [
     headline: "A comprehensive platform reskin that’s more than skin-deep",
     body: "Pienso had grown into a sprawling platform without establishing a formal design system. We needed one, and to clean up a lot of UX debt along the way.",
     tags: ["UX", "design systems", "leadership"],
+    eyebrow: "Pienso Reskin",
+    pageHero: {
+      src: "/images/projects/reskin/hero-explore.png",
+      alt: "Pienso Explore in the new visual system",
+      width: 2880,
+      height: 1600,
+      caption: "A look at Pienso *Explore* in our new visual system.",
+    },
     hero: {
       alt: "Pienso platform reskin and design-system work in Figma",
       artwork: {
@@ -268,6 +336,10 @@ export const projects: Project[] = [
     },
     cta: {
       label: "Read more",
+      href: "/projects/reskin",
+    },
+    caseStudyCta: {
+      label: "Read case study",
       href: "https://www.figma.com/deck/2gUHRCuqu0ttuDYnMumjtm",
       external: true,
     },

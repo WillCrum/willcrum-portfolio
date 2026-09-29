@@ -61,11 +61,26 @@ export type ProjectHero = {
    * tolerate a crop. */
   width?: number;
   height?: number;
+  /** Small caption below the hero on a /projects/[slug] page — inline
+   * markdown. Archive pages don't use this. */
+  caption?: string;
   /** Bespoke multi-layer composition (rotated cards + shadows), rendered as
    * live CSS directly over the card's own background — used instead of
    * src/fit for heroes whose visual is a floating-card collage rather than
    * a single flattened image. */
   artwork?: ArtworkConfig;
+  /** A short, silent, looping clip instead of a static hero image — used on
+   * a /projects/[slug] page. `poster` shows before playback starts and is
+   * what renders (as a plain image, no video element loaded) under
+   * prefers-reduced-motion. `url` should be an externally hosted file (e.g.
+   * R2), never a path under /public — see the "file" ArchiveBlock video
+   * variant for the same reasoning. */
+  video?: {
+    url: string;
+    poster: string;
+    posterWidth: number;
+    posterHeight: number;
+  };
 };
 
 export type Project = {
@@ -92,6 +107,14 @@ export type Project = {
    * [text](href). Archive-only; unused on the Work page's cards. */
   qualifier?: string;
   cta: CTA;
+  /** External source link (Figma deck / blog post) — shown as a CTA
+   * ("Read case study" / "Read my process blog") on the project's own
+   * /projects/[slug] page. Preserves what `cta` pointed at before `cta`
+   * became the internal "Read more" link. */
+  caseStudyCta?: CTA;
+  /** Small label shown above the headline on a /projects/[slug] page only
+   * (e.g. "Pienso Metamorph") — not used on the Work page's cards. */
+  eyebrow?: string;
 };
 
 /** An older/archived project, grouped under a category eyebrow label (e.g.
@@ -129,6 +152,23 @@ export type ArchiveBlock =
   | { type: "paragraph"; text: string }
   /** A pulled-out supporting statement, set apart from body copy. */
   | { type: "quote"; text: string }
+  /** Bulleted list — each item is inline markdown (e.g. a "**Lead-in** –
+   * detail" pattern used throughout the project-page info grids). */
+  | { type: "list"; items: string[] }
+  /** A responsive multi-column grid of labelled info items (e.g. Team,
+   * Background, Objective, Process, Challenges) — used on /projects/[slug]
+   * pages' case-study-style sections. Each item has exactly one of
+   * `paragraph`, `list`, or `fields` (a label:value line, e.g. "Design —
+   * Will Crum"). */
+  | {
+      type: "infoGrid";
+      items: {
+        label: string;
+        paragraph?: string;
+        list?: string[];
+        fields?: { label: string; value: string }[];
+      }[];
+    }
   | {
       type: "image";
       src: string;

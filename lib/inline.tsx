@@ -1,7 +1,7 @@
 import { Fragment, type ReactNode } from "react";
 import { FlipLink } from "@/components/ui/FlipLink";
 
-const TOKEN = /\[([^\]]+)\]\(([^)]+)\)|\*([^*]+)\*/g;
+const TOKEN = /\[([^\]]+)\]\(([^)]+)\)|\*\*([^*]+)\*\*|\*([^*]+)\*/g;
 
 // Shared with FlipLink's rendered links, since the underline/hover-color
 // treatment is otherwise identical to a plain inline link.
@@ -13,6 +13,7 @@ function isExternal(href: string): boolean {
 
 /**
  * Renders a small subset of inline markdown to React nodes:
+ *   **bold**            → <strong>
  *   *italic*            → <em>
  *   [text](href)        → FlipLink (new tab for http(s) links)
  * No HTML is injected — tokens map to elements directly.
@@ -27,7 +28,7 @@ export function renderInline(text: string): ReactNode {
   while ((match = TOKEN.exec(text)) !== null) {
     if (match.index > last) out.push(text.slice(last, match.index));
 
-    const [, linkText, href, italic] = match;
+    const [, linkText, href, bold, italic] = match;
     if (href) {
       const external = isExternal(href);
       out.push(
@@ -35,6 +36,8 @@ export function renderInline(text: string): ReactNode {
           {linkText}
         </FlipLink>,
       );
+    } else if (bold) {
+      out.push(<strong key={key++}>{bold}</strong>);
     } else if (italic) {
       out.push(
         <em key={key++} className="italic">

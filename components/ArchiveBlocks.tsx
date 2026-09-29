@@ -39,7 +39,7 @@ function ClickableImage({
         type="button"
         onClick={() => open(src)}
         aria-label={`View full size: ${alt}`}
-        className="relative block aspect-square w-full cursor-zoom-in overflow-hidden rounded-[2px] bg-card"
+        className="relative block aspect-square w-full cursor-zoom-in overflow-hidden rounded-[2px]"
       >
         <Image src={src} alt={alt} fill quality={90} className="object-cover" sizes={sizes} />
       </button>
@@ -58,7 +58,7 @@ function ClickableImage({
         width={width}
         height={height}
         quality={90}
-        className="h-auto w-full rounded-[2px] bg-card"
+        className="h-auto w-full rounded-[2px]"
         sizes={sizes}
       />
     </button>
@@ -96,6 +96,47 @@ function Block({ block }: { block: ArchiveBlock }) {
         <blockquote className="max-w-[783px] border-l-2 border-focus pl-5 text-xl italic leading-[1.4] text-headline">
           {renderInline(block.text)}
         </blockquote>
+      );
+    case "list":
+      return (
+        <ul className="max-w-[783px] list-disc space-y-1.5 pl-[27px] text-lg leading-[1.4] text-body">
+          {block.items.map((item, i) => (
+            <li key={i}>{renderInline(item)}</li>
+          ))}
+        </ul>
+      );
+    case "infoGrid":
+      return (
+        <div className="flex w-full flex-wrap items-start gap-16">
+          {block.items.map((item, i) => (
+            <div key={i} className="flex min-w-[300px] flex-1 flex-col gap-[19px]">
+              <p className="text-[22px] font-semibold leading-[1.36] tracking-[0.44px] text-body/50">
+                {item.label}
+              </p>
+              <div className="h-0.5 w-full bg-spacer" />
+              {item.paragraph && (
+                <p className="text-lg leading-[1.49] text-body">{renderInline(item.paragraph)}</p>
+              )}
+              {item.list && (
+                <ul className="list-disc space-y-0 pl-[27px] text-lg leading-[1.49] text-body">
+                  {item.list.map((li, j) => (
+                    <li key={j}>{renderInline(li)}</li>
+                  ))}
+                </ul>
+              )}
+              {item.fields && (
+                <div className="flex flex-col text-lg leading-[1.49] text-body">
+                  {item.fields.map((f, j) => (
+                    <p key={j}>
+                      <span className="text-caption">{f.label} </span>
+                      {f.value}
+                    </p>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
       );
     case "image":
       return (
