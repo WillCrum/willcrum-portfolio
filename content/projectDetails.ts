@@ -5,6 +5,58 @@ import type { ArchiveDetail } from "@/content/types";
 // content/archiveDetails.ts. A project with no entry here still gets its
 // page (intro shell only, per app/projects/[slug]/page.tsx).
 export const projectDetails: Record<string, ArchiveDetail> = {
+  nlq: {
+    slug: "nlq",
+    recognition: [],
+    blocks: [
+      {
+        type: "infoGrid",
+        items: [
+          {
+            label: "Team",
+            fields: [
+              { label: "Design", value: "Will Crum" },
+              {
+                label: "Development",
+                value: "Brian Cort, Mathew Maradin, Felipe Balduino Cassar",
+              },
+            ],
+          },
+          {
+            label: "Background",
+            paragraph:
+              "Post-ChatGPT, UX expectations were evolving quickly. And Pienso\u2019s Explore MVP already had the vector architecture to run \u201c[RAG](https://en.wikipedia.org/wiki/Retrieval-augmented_generation)\u201d-powered LLM responses.",
+          },
+          {
+            label: "Objective",
+            paragraph:
+              "Let users ask natural language questions about their data and **deliver accurate, document-anchored responses**.",
+          },
+          {
+            label: "Process",
+            paragraph:
+              "Kicked off Jan 2024, MVP established by May 2024. First I confirmed the MVP question set and established Pienso\u2019s relevant design principles. Then it was: wireframe, iterate, build, test, and iterate some more.",
+          },
+          {
+            label: "Challenges",
+            list: [
+              "**No false answers!** \u2013 Leadership was determined to limit hallucinations, to limit liability and build user trust.",
+              "**Finite context window** \u2013 Besides the query, the LLM receives part/all of the relevant docs. How to constrain?",
+              "**AI as a tool** \u2013 NLQ should empower human expertise, not replace it.",
+            ],
+          },
+          {
+            label: "Background",
+            list: [
+              "**Query templates** \u2013 Mad lib-style fill-in-the-blanks to constrain MVP users",
+              "**One-shot responses** \u2013 No chatting back and forth, just a single Q&A",
+              "**Cited sources, centralized docs** \u2013 NLQ\u2019s answers quote, cite, and highlight the source docs, which remain central in Explore\u2019s layout.",
+            ],
+          },
+        ],
+      },
+    ],
+  },
   metamorph: {
     slug: "metamorph",
     recognition: [],

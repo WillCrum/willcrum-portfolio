@@ -11,6 +11,11 @@ export const SKILL_TAGS = [
   "0->1",
 ];
 
+// Work-only addition — "CUI" (conversational UI) only applies to recent work,
+// so it's kept off the Archive page's filter pills (which build on
+// SKILL_TAGS) where no project would match it.
+export const WORK_TAGS = [...SKILL_TAGS, "CUI"];
+
 // Archive-only additions — older grad-school work spans a wider range of
 // disciplines than the Work page's tags cover. Kept separate so these never
 // leak onto the Work page's own filter pills.

@@ -112,6 +112,9 @@ export type Project = {
    * /projects/[slug] page. Preserves what `cta` pointed at before `cta`
    * became the internal "Read more" link. */
   caseStudyCta?: CTA;
+  /** Shows an inactive "Case study coming soon" button on the project page
+   * in place of `caseStudyCta` — remove once the real link is added. */
+  caseStudyComingSoon?: boolean;
   /** Small label shown above the headline on a /projects/[slug] page only
    * (e.g. "Pienso Metamorph") — not used on the Work page's cards. */
   eyebrow?: string;

@@ -80,11 +80,11 @@ export default async function ProjectPage({ params }: { params: Params }) {
               width={pageHero.width}
               height={pageHero.height}
               quality={90}
-              className="h-auto w-full rounded-[2px]"
+              className="h-auto w-full rounded-[8px]"
               sizes="(max-width: 768px) 100vw, 1164px"
             />
           ) : (
-            <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[2px]">
+            <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[8px]">
               <Image
                 src={pageHero.src}
                 alt={pageHero.alt}
@@ -103,6 +103,11 @@ export default async function ProjectPage({ params }: { params: Params }) {
 
       <div className="flex flex-col gap-6">
         <p className="text-lg leading-[1.4] text-body">{renderInline(project.body)}</p>
+        {!project.caseStudyCta && project.caseStudyComingSoon && (
+          <div className="self-start">
+            <Button disabled>Case study coming soon</Button>
+          </div>
+        )}
         {project.caseStudyCta && (
           <div className="self-start">
             <Button href={project.caseStudyCta.href} external={project.caseStudyCta.external}>

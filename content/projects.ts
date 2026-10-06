@@ -1,15 +1,99 @@
 import type { Project } from "@/content/types";
-import { SKILL_TAGS } from "@/content/tags";
+import { WORK_TAGS } from "@/content/tags";
 
 // Intro block at the top of the Work page.
 export const workIntro = {
   title: "Skills and projects",
   description:
     "Here are the main design skills, modalities, and frameworks I employ to put my approach into practice — and select projects that showcase them.",
-  skills: SKILL_TAGS,
+  skills: WORK_TAGS,
 };
 
 export const projects: Project[] = [
+  {
+    slug: "nlq",
+    company: "Pienso",
+    logo: "/images/logo-pienso.svg",
+    logoAlt: "Pienso",
+    logoAspect: 139.034 / 32,
+    headline: "Text-supported answers to users\u2019 questions about their data",
+    body: "*NLQ* is a conversational interface for asking questions about your data and getting reliable, document-supported answers.",
+    tags: ["UI", "UX", "AI/ML", "CUI", "0->1"],
+    eyebrow: "Pienso NLQ",
+    pageHero: {
+      src: "/images/projects/nlq/hero.png",
+      alt: "NLQ answering a natural-language question about a document set, alongside the source documents in Pienso Explore",
+      width: 2880,
+      height: 1800,
+      caption: "NLQ is a new feature in Pienso Explore that lets users ask questions about their documents.",
+    },
+    caseStudyComingSoon: true,
+    hero: {
+      alt: "NLQ query template and document-supported response panel",
+      artwork: {
+        desktop: [
+          {
+            src: "/images/nlq-response.png",
+            aspect: 875 / 1733,
+            height: "112.630%",
+            top: "3.640%",
+            left: "38.400%",
+            rotate: 2.15,
+            shadow: "0px 4px 4px 0px rgba(0,0,0,0.25)",
+          },
+          {
+            src: "/images/nlq-templates.png",
+            aspect: 875 / 354,
+            height: "23.007%",
+            top: "13.866%",
+            left: "2.868%",
+            rotate: 2.57,
+            shadow: "0px 4px 4px 0px rgba(0,0,0,0.25)",
+          },
+          {
+            src: "/images/nlq-cursor.png",
+            aspect: 82 / 84,
+            height: "7.279%",
+            top: "73.310%",
+            left: "78.594%",
+            rotate: 0,
+          },
+        ],
+        mobile: [
+          {
+            src: "/images/nlq-response.png",
+            aspect: 875 / 1733,
+            height: "138.419%",
+            top: "4.473%",
+            left: "38.400%",
+            rotate: 2.15,
+            shadow: "0px 4px 4px 0px rgba(0,0,0,0.25)",
+          },
+          {
+            src: "/images/nlq-templates.png",
+            aspect: 875 / 354,
+            height: "28.275%",
+            top: "17.041%",
+            left: "2.868%",
+            rotate: 2.57,
+            shadow: "0px 4px 4px 0px rgba(0,0,0,0.25)",
+          },
+          {
+            src: "/images/nlq-cursor.png",
+            aspect: 82 / 84,
+            height: "8.946%",
+            top: "90.096%",
+            left: "78.594%",
+            rotate: 0,
+          },
+        ],
+      },
+    },
+    cta: {
+      label: "Read more",
+      href: "/projects/nlq",
+    },
+  },
   {
     slug: "mta-dashboard",
     company: "My /spec",
