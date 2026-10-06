@@ -28,29 +28,33 @@ export function HeroVideo({
 
   if (reducedMotion) {
     return (
-      <Image
-        src={video.poster}
-        alt={alt}
-        width={video.posterWidth}
-        height={video.posterHeight}
-        quality={90}
-        className="h-auto w-full rounded-[2px]"
-        sizes="(max-width: 768px) 100vw, 1164px"
-      />
+      <div className="overflow-hidden rounded-[8px]">
+        <Image
+          src={video.poster}
+          alt={alt}
+          width={video.posterWidth}
+          height={video.posterHeight}
+          quality={90}
+          className="h-auto w-full"
+          sizes="(max-width: 768px) 100vw, 1164px"
+        />
+      </div>
     );
   }
 
   return (
-    <video
-      src={video.url}
-      poster={video.poster}
-      autoPlay
-      muted
-      loop
-      playsInline
-      preload="none"
-      aria-label={alt}
-      className="h-auto w-full rounded-[2px]"
-    />
+    <div className="overflow-hidden rounded-[8px]">
+      <video
+        src={video.url}
+        poster={video.poster}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="none"
+        aria-label={alt}
+        className="h-auto w-full"
+      />
+    </div>
   );
 }

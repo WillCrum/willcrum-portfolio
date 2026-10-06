@@ -26,6 +26,12 @@ export const projects: Project[] = [
       width: 3572,
       height: 2258,
       caption: "Transit Dashboard is a custom web app for the discerning MTA rider.",
+      video: {
+        url: "https://pub-1e1e0e4d047847bbad37d4cf58fd6bab.r2.dev/MTA%20Dashboard%20%E2%80%93%C2%A0portfolio%20site%20loop.mp4",
+        poster: "/images/projects/mta-dashboard/hero-poster.jpg",
+        posterWidth: 2940,
+        posterHeight: 1720,
+      },
     },
     hero: {
       alt: "My Transit Dashboard showing live MTA train and bus arrivals",
