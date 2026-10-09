@@ -39,7 +39,7 @@ export const projects: Project[] = [
             top: "3.640%",
             left: "38.400%",
             rotate: 2.15,
-            shadow: "0px 4px 4px 0px rgba(0,0,0,0.25)",
+            dropShadow: "0px 4px 4px rgba(0,0,0,0.25)",
           },
           {
             src: "/images/nlq-templates.png",
@@ -48,7 +48,7 @@ export const projects: Project[] = [
             top: "13.866%",
             left: "2.868%",
             rotate: 2.57,
-            shadow: "0px 4px 4px 0px rgba(0,0,0,0.25)",
+            dropShadow: "0px 4px 4px rgba(0,0,0,0.25)",
           },
           {
             src: "/images/nlq-cursor.png",
@@ -67,7 +67,7 @@ export const projects: Project[] = [
             top: "4.473%",
             left: "38.400%",
             rotate: 2.15,
-            shadow: "0px 4px 4px 0px rgba(0,0,0,0.25)",
+            dropShadow: "0px 4px 4px rgba(0,0,0,0.25)",
           },
           {
             src: "/images/nlq-templates.png",
@@ -76,7 +76,7 @@ export const projects: Project[] = [
             top: "17.041%",
             left: "2.868%",
             rotate: 2.57,
-            shadow: "0px 4px 4px 0px rgba(0,0,0,0.25)",
+            dropShadow: "0px 4px 4px rgba(0,0,0,0.25)",
           },
           {
             src: "/images/nlq-cursor.png",

@@ -79,6 +79,7 @@ function ArtworkCardImage({ card, alt }: { card: ArtworkCard; alt: string }) {
         transformOrigin: "top left",
         borderRadius: card.rounded,
         boxShadow: card.shadow,
+        filter: card.dropShadow ? `drop-shadow(${card.dropShadow})` : undefined,
       }}
     >
       <Image

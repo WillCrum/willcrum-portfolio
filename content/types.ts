@@ -32,6 +32,10 @@ export type ArtworkCard = {
   left: string;
   rotate: number;
   shadow?: string;
+  /** Like `shadow` but as the args to CSS `drop-shadow()`, so it follows the
+   * image's own alpha (rounded transparent corners) instead of the card's
+   * rectangular box — use for images whose corners are baked transparent. */
+  dropShadow?: string;
   rounded?: string;
   /** Skips Next.js image re-encoding and serves the source file as-is —
    * for dense screenshots where any re-compression is visibly softer. */
